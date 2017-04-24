@@ -1,0 +1,2661 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<title>case测试</title>
+	<meta name="format-detection" content="telephone=no" />
+	<link type="text/css"  rel="stylesheet"  href="swiper/swiper.min.css"/>
+	<link type="text/css"  rel="stylesheet"  href="css/homeLayout.css"/>
+	<link type="text/css"  rel="stylesheet"  href="css/normalize.css"/>
+	<link type="text/css"  rel="stylesheet"  href="css/cases.css"/>
+	<script type="text/javascript" src="jQuery/jquery.1.11.0.min.js" ></script>
+	<script type="text/javascript" src="jQuery/jquery.lazyload.min.js" ></script>
+	<script type="text/javascript" src="jQuery/zepto.js" ></script>
+	<script type="text/javascript" src="swiper/swiper.min.js" ></script>
+	<script type="text/javascript" src="vue/vue.2.2.6.js" ></script>
+</head>
+<body class="mobile">
+<div id="header">
+	<div id="logo">
+		<a href="javascript:void(0)" class="nav-btn"></a>
+		<a href="javaScript:void(0)" class="signin-btn">登录</a>
+		<a href="javaScript:void(0)" class="signup-btn">注册</a>
+		<a href="http://community.apicloud.com/bbs/" id="userPic"><img src="./img/signup/5-65.png"/></a>
+	</div>
+</div>
+<div class="wrapper">
+	<div class="wraper" id="cases">
+		<div class="banner">
+			<img class="banner-img" src="./img/mobile/cases/cases-banner.png" width="100%"/>
+		</div>
+		<div class="section" id="tabbox">
+			<div class="tabs">
+				<div class="tab active" data-name="classic"><span data-index="0">经典案例</span></div>
+				<div class="tab " data-name="multiport"><span data-index="1" data-name="multiport">多端案例</span></div>
+				<div class="tab " data-name="electricity"><span data-index="2" data-name="electricity">电商</span></div>
+				<div class="tab " data-name="O2O"><span data-index="3" data-name="O2O">O2O</span></div>
+				<div class="tab " data-name="social"><span data-index="4" data-name="social">社交</span></div>
+				<div class="tab " data-name="education"><span data-index="5" data-name="education">教育</span></div>
+				<div class="tab " data-name="message"><span data-index="6" data-name="message">资讯</span></div>
+				<div class="tab " data-name="IOT"><span data-index="7" data-name="IOT">IOT</span></div>
+				<div class="tab " data-name="financial"><span data-index="8" data-name="financial">金融</span></div>
+				<div class="tab " data-name="medical"><span data-index="9" data-name="medical">医疗</span></div>
+				<div class="tab " data-name="firm"><span data-index="10" data-name="firm">企业应用</span></div>
+				<div class="tab " data-name="other"><span data-index="11" data-name="other">其他</span></div>
+			</div>
+		</div>
+		<div class="section" id="tab-cons">
+			<div id="caseMain" class="tab-con" data-index="0" :data-type="casesType">
+				<template  v-for="(item,index) in cases">
+					<div :class="'section cases-main '+item.className">
+						<div class="con1">
+							<div class="app-logo"><img class="lazy" :src="item.app_logo"></div>
+							<div class="app-info">
+								<p class="app_name" v-text="item.app_name">..</p>
+								<p v-if="item.app_dev_time" class="app_dev_time" v-text="item.app_dev_time">..</p>
+								<p v-if="item.app_line_time" class="app_line_time" v-text="item.app_line_time">..</p>
+							</div>
+						</div>
+						<div class="con2" v-text="item.con2_txt">..</div>
+						<div class="con3">
+							<div class="con-title con-title-v" v-if="item.version">
+								<span class="v1 active" @click="setversion(0,index,$event)" v-text="item.itemImg[0].vname">..</span>
+								<span class="v2" @click="setversion(1,index,$event)" v-text="item.itemImg[1].vname">..</span>
+							</div>
+							<p class="con-title" v-else>应用展示</p>
+							<div class="app-info-box">
+								<template v-if="item.version">
+									<swiper v-show="item.itemImg[0].active" :itemimg="item.itemImg[0]" :id="item.className+'swiper0'"></swiper>
+									<swiper v-show="item.itemImg[1].active"  :itemimg="item.itemImg[1]" :id="item.className+'swiper1'"></swiper>
+								</template>
+								<template v-else>
+									<swiper :itemimg="item" :id="item.className+'swiper0'"></swiper>
+								</template>
+								<div class="app_qcode_img">
+									<template  v-if="item.ios">
+										<p class="ios">
+											<img class="lazy" :src="item.ios" style="display: inline;width:100%;">
+											<span>iOS版</span>
+										</p>
+										<p class="and">
+											<img class="lazy" :src="item.and" style="display: inline;width:100%;">
+											<span>Android版</span>
+										</p>
+									</template>
+									<template v-else>
+										<div class="noDownload" v-text="item.noDownload">..</div>
+									</template>
+								</div>
+								<div v-if="item.ser_item.length>0" :class="item.show?'pro-info active':'pro-info'">
+									<div class="server-info">
+										<p class="con-title">使用服务</p>
+										<div class="server-con">
+											<template v-for="item2 in item.ser_item" track-by="$index">
+												<div class="ser-item" v-text="item2">..</div>
+											</template>
+										</div>
+									</div>
+									<div class="txt-info">
+										<p class="con-title" v-text="item.con_title">..</p>
+										<div class="server-txt" v-text="item.server_txt">..</div>
+									</div>
+									<div class="taggle">
+										<span @click="taggle(index)" v-text="item.show?'收起项目详情':'项目历程详情'"></span>
+										<span class="item.show?'active':''"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</template>
+			</div>
+		</div>
+		<div id="go-top">
+			<div id="go-text">↑</div>
+		</div>
+	</div>
+</div>
+<div id="footer">
+	<dl>
+		<dt>APP项目定制</dt>
+		<dd><i class="phone"></i><a href="tel://400-0132920">400-0132920</a></dd>
+		<dd><i class="message"></i><a href="mailto:app@apicloud.com">app@apicloud.com</a></dd>
+		<dd><i class="qq"></i><a href="tencent://message/?uin=3379915029&Site=&Menu-=yes">3379915029</a></dd>
+	</dl>
+	<div class="wx">
+		<div><img src="./img/mobile/wx.png"/></div>
+		官方微信
+	</div>
+	<div class="copy">
+		<p>©2014-2016 APICloud</p>
+		<p>
+			<a class="linkA" target="_blank" href="http://www.miitbeian.gov.cn/state/outPortal/loginPortal.action">京ICP备14027692号</a>
+			&nbsp;&nbsp;&nbsp;&nbsp;京ICP证151131号&nbsp;&nbsp;&nbsp;&nbsp;
+			<a class="linkA" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802020063" target="_blank">京公网安备 11010802020063号</a>
+		</p>
+	</div>
+</div>
+<script type="text/javascript">
+	Vue.component('swiper', {
+		props: ['itemimg','id','index'],
+		template:
+				`<div class="swiper-container swiper-container1" :id="id">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<img class="lazy" :src="itemimg.item0">
+						</div>
+						<div class="swiper-slide">
+							<img class="lazy" :src="itemimg.item1">
+						</div>
+						<div class="swiper-slide">
+							<img class="lazy" :src="itemimg.item2">
+						</div>
+					</div>
+					<div class="swiper-button-prev"></div>
+					<div class="swiper-button-next"></div>
+			    </div>`,
+		mounted:function(){
+			var _id="#"+this.id;
+			new Swiper(_id, {
+				loop: true,
+				initialSlide :0,
+				effect : 'coverflow',
+				slidesPerView:2,
+				centeredSlides: true,
+				coverflow: {
+					rotate:0,
+					stretch:0,
+					depth:300,
+					modifier: 1,
+					slideShadows :true
+				},
+				nextButton: '.swiper-button-next',
+				prevButton: '.swiper-button-prev'
+			})
+		}
+	});
+  var allcases={
+	  body:{
+		  test:{typeName:"test",data:[
+			  {
+				  show:false,
+				  className:'opler',
+				  app_logo:'./img/mobile/cases/opler/logo.png',
+				  app_name:'opler 智能采暖',
+				  app_dev_time:'DEMO 15天/3人',
+				  app_line_time:'上 线 45天/3人',
+				  con2_txt:'Opler智能温控器，用户可以通过移动终端来操控家庭采暖的智能硬件设备。同时Opler专注打造地暖已装、新装用户及售后服务市场的B2B2C及O2O商业模式平台，提高地暖集成安装商服务能力水平及服务利润，同时提升地暖用户的用户体验。',
+				  item0:'./img/mobile/cases/opler/1.PNG',
+				  item1:'./img/mobile/cases/opler/2.PNG',
+				  item2:'./img/mobile/cases/opler/3.PNG',
+				  ios:'./img/new/opler/i.png',
+				  and:'./img/new/opler/a.png',
+				  ser_item:['mam','db','mcm','fs','speechRecognizer',
+					  'UIChatBox','gizWifiSDK','bMap','talkingData','ajpush','wx',
+					  'qq','sinaWeiBo','imageBrowser','periodSelector',
+					  'multiSelector'
+				  ],
+				  con_title:'郑益 合伙人',
+				  server_txt:'2015年4月，Opler创业项目正式启动，首先要做的就是温控器硬件设备及APP的设计开发。在App的开发上，针对于当时的内部开发能力及相关资源情况，传统的开发方式（纯原生）且不说是不是可以按期达成，仅开发成本将是一笔很大的支出，由于本人一直关注着新开发资源及平台技术的发展，在经过一番深入研究对比，最终我决定以APICloud的开发框架技术做为我们的APP的开发解决方案，最终事实证明我的决定是完全正确的。在2个月时间左右开发团队就搞定了2个App的双系统的开发工作，平均1月1个APP的开发速度，从而成功推出上架，抢占了商机，甩开竞争对手好几条马路！</br>到今天，我们的产品已经成功上市并取得市场的检验认可，能在这短短的6个月时间成功推出软硬件产品离不开我们团队的拼搏，但如果没有找到像APICloud这样的先进快速的开发技术平台，我们的团队将会付出更多的资源及投入，所以我们也希望APICloud能在这块领域做的更好更精，让更多的创业者们以及APP开发团队能更快更省更专业的推出他们的产品。'
+			  },//opler 智能采暖
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'客户端',
+						  active:true,
+						  app_name:'春秋航空',
+						  app_logo:'./img/new/chunqiu/logo.png',
+						  item0:'./img/mobile/cases/chunqiu/chunqiu1.png',
+						  item1:'./img/mobile/cases/chunqiu/chunqiu2.png',
+						  item2:'./img/mobile/cases/chunqiu/chunqiu3.png',
+						  ios:'./img/new/chunqiu/i.jpg',
+						  and:'./img/new/chunqiu/a.jpg'
+					  },
+					  {
+						  vname:'smp平台',
+						  active:false,
+						  app_name:'春秋航空smp',
+						  app_logo:'./img/new/chunqiu/logo.png',
+						  item0:'./img/mobile/cases/chunqiu/chunqiusmp1.png',
+						  item1:'./img/mobile/cases/chunqiu/chunqiusmp2.png',
+						  item2:'./img/mobile/cases/chunqiu/chunqiusmp3.png',
+						  ios:'./img/new/chunqiu/i.jpg',
+						  and:'./img/new/chunqiu/a.jpg'
+					  }
+				  ],
+				  className:'cqhk',
+				  app_logo:'./img/new/chunqiu/logo.png',
+				  app_name:'春秋航空',
+				  app_dev_time:'DEMO 7天/1人',
+				  app_line_time:'上 线 30天/1人',
+				  con2_txt:'春秋航空总部位于上海，目前拥有上海虹桥、浦东、沈阳、石家庄、深圳5个国内基地以及日本大阪、名古屋、泰国曼谷、韩国济州等海外基地，运营上海飞广州、深圳、珠海、揭阳（汕头）、厦门、三亚、福州、沈阳、哈尔滨、长春、大连、青岛、银川、绵阳、石家庄、昆明、重庆、西安、兰州、乌鲁木齐、呼和浩特等多个城市，共飞了九十多条国内航线及旅游胜地的航线。',
+				  item0:'./img/mobile/cases/chunqiu/chunqiu1.png',
+				  item1:'./img/mobile/cases/chunqiu/chunqiu2.png',
+				  item2:'./img/mobile/cases/chunqiu/chunqiu3.png',
+				  ios:'./img/new/chunqiu/i.jpg',
+				  and:'./img/new/chunqiu/a.jpg',
+				  ser_item:['SuperWebView'],
+				  con_title:'移动事业部总监  朱亮',
+				  server_txt:'我们的业务需求非常多，为了快速上线选择了内嵌H5的解决方案，但是用户体验很差，比如卡顿、网速加载慢等。但是资源有限没有办法全部用Native来实现。APICloud新版推出了SuperWebView功能，使我们能够具备了Native+Hybrid的能力，快速将内嵌网页转化为混合应用，体验得到了大幅改善。我们仅花了1个工程师7天的时间就完成了整合并更新发布。祝愿APICloud蓬勃发展！'
+			  },//春秋航空
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'学生端',
+						  active:true,
+						  app_name:'口袋学堂',
+						  app_logo:'./img/mobile/cases/koudaixuetang/logo2.png',
+						  item0:'./img/mobile/cases/koudaixuetang/pic2-1.jpg',
+						  item1:'./img/mobile/cases/koudaixuetang/pic2-2.jpg',
+						  item2:'./img/mobile/cases/koudaixuetang/pic2-3.jpg',
+						  ios:'./img/mobile/cases/koudaixuetang/i2.jpg',
+						  and:'./img/mobile/cases/koudaixuetang/a2.jpg',
+					  },
+					  {
+						  vname:'教师端',
+						  active:false,
+						  app_name:'口袋学堂',
+						  app_logo:'./img/mobile/cases/koudaixuetang/logo1.png',
+						  item0:'./img/mobile/cases/koudaixuetang/pic1-1.jpg',
+						  item1:'./img/mobile/cases/koudaixuetang/pic1-2.jpg',
+						  item2:'./img/mobile/cases/koudaixuetang/pic1-3.jpg',
+						  ios:'./img/mobile/cases/koudaixuetang/i1.jpg',
+						  and:'./img/mobile/cases/koudaixuetang/a1.jpg',
+					  }
+				  ],
+				  className:'koudaixuetang',
+				  app_logo:'./img/mobile/cases/koudaixuetang/logo2.png',
+				  app_name:'口袋学堂',
+				  app_dev_time:'DEMO 15天/2人',
+				  app_line_time:'上 线 90天/5人',
+				  con2_txt:'口袋学堂是一款帮助学生实现在校电子化学习的应用，主要为学生提供在线课堂、作业、出国备考等，同时实时记录和跟踪学习行为',
+				  item0:'./img/mobile/cases/koudaixuetang/pic2-1.jpg',
+				  item1:'./img/mobile/cases/koudaixuetang/pic2-2.jpg',
+				  item2:'./img/mobile/cases/koudaixuetang/pic2-3.jpg',
+				  ios:'./img/mobile/cases/koudaixuetang/i2.jpg',
+				  and:'./img/mobile/cases/koudaixuetang/a2.jpg',
+				  ser_item:['ajpush',
+					  'pdfReader','yzxVerification',
+					  'signature','audio',
+					  'UIInput','fs',
+					  'videoPlayer','zip',
+					  'audioPlayer','UICalendar'],
+				  con_title:'',
+				  server_txt:'口袋学堂去年用原生方式开发了第一版，不仅开发周期长，开发人员水平参差不齐，而且面临移动终端难兼容等问题，因此，我们期望能在高效开发上面有所突破。 今年有幸结识了APICloud，拥有良好的技术团队提供定制服务，为口袋学堂快速开发了高质量的APP，帮我们节省了开发团队管理成本，使团队能专心于教学内容的制作和产品设计。'
+			  },//口袋学堂
+		  ]},
+		  classic:{typeName:"classic",data:[
+			  {
+				  show:false,
+				  version:false,
+				  className:'opler',
+				  app_logo:'./img/mobile/cases/opler/logo.png',
+				  app_name:'opler 智能采暖',
+				  app_dev_time:'DEMO 15天/3人',
+				  app_line_time:'上 线 45天/3人',
+				  con2_txt:'Opler智能温控器，用户可以通过移动终端来操控家庭采暖的智能硬件设备。同时Opler专注打造地暖已装、新装用户及售后服务市场的B2B2C及O2O商业模式平台，提高地暖集成安装商服务能力水平及服务利润，同时提升地暖用户的用户体验。',
+				  item0:'./img/mobile/cases/opler/1.PNG',
+				  item1:'./img/mobile/cases/opler/2.PNG',
+				  item2:'./img/mobile/cases/opler/3.PNG',
+				  ios:'./img/new/opler/i.png',
+				  and:'./img/new/opler/a.png',
+				  ser_item:['mam','db','mcm','fs','speechRecognizer',
+					  'UIChatBox','gizWifiSDK','bMap','talkingData','ajpush','wx',
+					  'qq','sinaWeiBo','imageBrowser','periodSelector',
+					  'multiSelector'
+				  ],
+				  con_title:'郑益 合伙人',
+				  server_txt:'2015年4月，Opler创业项目正式启动，首先要做的就是温控器硬件设备及APP的设计开发。在App的开发上，针对于当时的内部开发能力及相关资源情况，传统的开发方式（纯原生）且不说是不是可以按期达成，仅开发成本将是一笔很大的支出，由于本人一直关注着新开发资源及平台技术的发展，在经过一番深入研究对比，最终我决定以APICloud的开发框架技术做为我们的APP的开发解决方案，最终事实证明我的决定是完全正确的。在2个月时间左右开发团队就搞定了2个App的双系统的开发工作，平均1月1个APP的开发速度，从而成功推出上架，抢占了商机，甩开竞争对手好几条马路！</br>到今天，我们的产品已经成功上市并取得市场的检验认可，能在这短短的6个月时间成功推出软硬件产品离不开我们团队的拼搏，但如果没有找到像APICloud这样的先进快速的开发技术平台，我们的团队将会付出更多的资源及投入，所以我们也希望APICloud能在这块领域做的更好更精，让更多的创业者们以及APP开发团队能更快更省更专业的推出他们的产品。'
+			  },//opler 智能采暖
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'客户端',
+						  active:true,
+						  app_name:'春秋航空',
+						  app_logo:'./img/new/chunqiu/logo.png',
+						  item0:'./img/mobile/cases/chunqiu/chunqiu1.png',
+						  item1:'./img/mobile/cases/chunqiu/chunqiu2.png',
+						  item2:'./img/mobile/cases/chunqiu/chunqiu3.png',
+						  ios:'./img/new/chunqiu/i.jpg',
+						  and:'./img/new/chunqiu/a.jpg'
+					  },
+					  {
+						  vname:'smp平台',
+						  active:true,
+						  app_name:'春秋航空smp',
+						  app_logo:'./img/new/chunqiu/logo.png',
+						  item0:'./img/mobile/cases/chunqiu/chunqiusmp1.png',
+						  item1:'./img/mobile/cases/chunqiu/chunqiusmp2.png',
+						  item2:'./img/mobile/cases/chunqiu/chunqiusmp3.png',
+						  ios:'',
+						  and:''
+					  }
+				  ],
+				  className:'cqhk',
+				  app_logo:'./img/new/chunqiu/logo.png',
+				  app_name:'春秋航空',
+				  app_dev_time:'DEMO 7天/1人',
+				  app_line_time:'上 线 30天/1人',
+				  con2_txt:'春秋航空总部位于上海，目前拥有上海虹桥、浦东、沈阳、石家庄、深圳5个国内基地以及日本大阪、名古屋、泰国曼谷、韩国济州等海外基地，运营上海飞广州、深圳、珠海、揭阳（汕头）、厦门、三亚、福州、沈阳、哈尔滨、长春、大连、青岛、银川、绵阳、石家庄、昆明、重庆、西安、兰州、乌鲁木齐、呼和浩特等多个城市，共飞了九十多条国内航线及旅游胜地的航线。',
+				  item0:'./img/mobile/cases/chunqiu/chunqiu1.png',
+				  item1:'./img/mobile/cases/chunqiu/chunqiu2.png',
+				  item2:'./img/mobile/cases/chunqiu/chunqiu3.png',
+				  ios:'./img/new/chunqiu/i.jpg',
+				  and:'./img/new/chunqiu/a.jpg',
+				  ser_item:['SuperWebView'],
+				  con_title:'移动事业部总监  朱亮',
+				  server_txt:'我们的业务需求非常多，为了快速上线选择了内嵌H5的解决方案，但是用户体验很差，比如卡顿、网速加载慢等。但是资源有限没有办法全部用Native来实现。APICloud新版推出了SuperWebView功能，使我们能够具备了Native+Hybrid的能力，快速将内嵌网页转化为混合应用，体验得到了大幅改善。我们仅花了1个工程师7天的时间就完成了整合并更新发布。祝愿APICloud蓬勃发展！'
+			  },//春秋航空
+			  {
+				  show:false,
+				  className:'changjiangrb',
+				  app_logo:'./img/mobile/cases/wuhan/logo.png',
+				  app_name:'长江日报',
+				  app_dev_time:'DEMO 60天/3人',
+				  app_line_time:'上 线 15天/2人',
+				  con2_txt:'长江日报是长江日报官方网站长江网重点打造的一款基于武汉热点事件及热门话题推荐的新闻阅读客户端：设置有头条、武汉、天下、时评等十余个新闻栏目，以及视频、微聚合、荐新闻、移动数字报等移动端特色产品。通过手机随时随地了解每天不一样的武汉，了解最新发生的国内外新闻。',
+				  item0:'./img/mobile/cases/wuhan/wuhan1.png',
+				  item1:'./img/mobile/cases/wuhan/wuhan2.png',
+				  item2:'./img/mobile/cases/wuhan/wuhan3.png',
+				  ios:'./img/mobile/cases/wuhan/i.png',
+				  and:'./img/mobile/cases/wuhan/a.png',
+				  ser_item:['baiduLocation','imageBrowser','mam','qq','push','ajpush','ping++','talkingdata','wx','contacts','weibo','FNScanner','videoplayer'],
+				  con_title:'开发主管 彭蔚',
+				  server_txt:'项目初期，使用过国内多个混合开发平台，最后都因为产品体验达不到预期而放弃。偶然发现APICloud，通过线上demo，感觉体验不错，立马进行项目改造整合，调试方便，文档详细，发布迅速，体验流畅。完全符合项目的基本需求，长期的WebApp开发经验让我们快速上手APICloud。在各平台的兼容也能及时处理。在由Web通向Native的道路上，混合确实是个很好的解决方案，而APICloud是目前该方案各大厂家中的不二之选。'
+			  },//长江日报
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'用户端',
+						  active:true,
+						  app_name:'车主管家',
+						  app_logo:'./img/mobile/cases/chezhu/logo.png',
+						  item0:'./img/mobile/cases/chezhu/pic2-1.png',
+						  item1:'./img/mobile/cases/chezhu/pic2-2.png',
+						  item2:'./img/mobile/cases/chezhu/pic2-3.png',
+						  ios:'./img/mobile/cases/chezhu/i2.jpg',
+						  and:'./img/mobile/cases/chezhu/a2.jpg',
+					  },
+					  {
+						  vname:'商户端',
+						  active:true,
+						  app_name:'车主管家',
+						  app_logo:'./img/mobile/cases/chezhu/logo.png',
+						  item0:'./img/mobile/cases/chezhu/pic1-1.png',
+						  item1:'./img/mobile/cases/chezhu/pic1-2.png',
+						  item2:'./img/mobile/cases/chezhu/pic1-3.png',
+						  ios:'./img/mobile/cases/chezhu/I1.jpg',
+						  and:'./img/mobile/cases/chezhu/a1.jpg',
+					  }
+				  ],
+				  className:'chezhugunajia',
+				  app_logo:'./img/mobile/cases/chezhu/logo.png',
+				  app_name:'车主管家',
+				  app_dev_time:'DEMO 10天/2人',
+				  app_line_time:'上 线 90天/4人',
+				  con2_txt:'车主管家是一款围绕车主需求，利用移动互联+传统汽车经销4S店形式为客户提供更便捷的4S店线上服务平台',
+				  item0:'./img/mobile/cases/chezhu/pic2-1.png',
+				  item1:'./img/mobile/cases/chezhu/pic2-2.png',
+				  item2:'./img/mobile/cases/chezhu/pic2-3.png',
+				  ios:'./img/mobile/cases/chezhu/i2.jpg',
+				  and:'./img/mobile/cases/chezhu/a2.jpg',
+				  ser_item:['UIScrollPicture',
+					  'rongCloud2','UIChatBox','FNImageClip',
+					  'FNScanner','photoBrowser',
+					  'wxPay','pushGeTui',
+					  'ajpush'
+				  ],
+				  con_title:'',
+				  server_txt:'车主管家是一款围绕车主需求，利用移动互联+传统汽车经销4S店形式为客户提供更便捷的4S店线上服务平台，目前通过APICloud合作已经正式上线，用这种方式给企业带来很多好处：1、人员结构上不需要再去招聘不同的APP开发人员，2、对开发人员的要求降低了，3、APICloud平台上的模块化组件，大大提升了开发的周期，同时降低了项目失败的风险。我们车主管家项目开发周期2个月测试版就出来了，后面花了1个月的测试和完善；真心感谢APICloud所有的小伙伴，期待更多合作。'
+			  },//车主管家
+			  {
+				  show:false,
+				  className:'xiaobaozhushou',
+				  app_logo:'./img/mobile/cases/xiaobao/logo.png',
+				  app_name:'消保助手',
+				  app_dev_time:'DEMO 10天/1人',
+				  app_line_time:'上 线 60天/3人',
+				  con2_txt:'消保助手是一款专业的消费者购物保障工具软件。本软件旨在帮助消费者方便快捷查询商品包装、QS、成分表等各项信息是否符合国家强制性标准，及时推送权威部门公告以及消费权益保护相关的法律法规和案例检索服务。',
+				  item0:'./img/mobile/cases/xiaobao/pic-1.jpg',
+				  item1:'./img/mobile/cases/xiaobao/pic-2.jpg',
+				  item2:'./img/mobile/cases/xiaobao/pic-3.jpg',
+				  ios:'./img/mobile/cases/xiaobao/i.jpg',
+				  and:'./img/mobile/cases/xiaobao/a.jpg',
+				  ser_item:['UIListView',
+					  'aliPay','qq',
+					  'wx','UIInput',
+					  'UICityList','UIMediaScanner',
+					  'ajpush','pdfReader',
+					  'compactPicture','FNImageClip'
+				  ],
+				  con_title:'',
+				  server_txt:'消保助手立项目标是全国首家消费维权专业法律服务平台。为广大消费者提供法律、鉴检、金融、咨询等完整解决方案和一站式服务。为抢在5月国务院消费升级供给侧改革相关政策出台前上线，我要求2个月内完成开发。但与多个项目团队沟通均无法解决时间问题。 幸运偶遇APICloud确保了消保助手如期上线。两个月的先发优势确立了消保助手—中国消费维权专业法律服务领域第一品牌的地位。'
+			  },//消保助手
+			  {
+				  show:false,
+				  className:'shangzhuangyuan',
+				  app_logo:'./img/mobile/cases/shangzhuangyuan/logo.png',
+				  app_name:'商状元',
+				  app_dev_time:'DEMO 10天/2人',
+				  app_line_time:'上 线 30天/3人',
+				  con2_txt:'商状元是国内首款针对商业人，提供商业知识分发与定制服务APP，帮助商业人提升商业智慧以及获得更优的职业升迁和更多的商业机会',
+				  item0:'./img/mobile/cases/shangzhuangyuan/pic-2.png',
+				  item1:'./img/mobile/cases/shangzhuangyuan/pic-3.png',
+				  item2:'./img/mobile/cases/shangzhuangyuan/pic-4.png',
+				  ios:'./img/mobile/cases/shangzhuangyuan/i.jpg',
+				  and:'./img/mobile/cases/shangzhuangyuan/a.jpg',
+				  ser_item:['UIInput',
+					  'qq','wx',
+					  'weibo','fs',
+					  'db','UIListView',
+					  'photoBrowser','UIMediaScanner',
+					  'trans'],
+				  con_title:'',
+				  server_txt:'商状元是国内首款针对商业人，提供商业知识分发与定制服务APP，帮助商业人提升商业智慧以及获得更优的职业升迁和更多的商业机会。在APICloud帮助下，终于赶在年底前上线，帮我们节省了团队的折腾成本，使团队能专心于内容的制作和产品设计'
+			  },//商状元
+			  {
+				  show:false,
+				  className:'zhongxingfu',
+				  app_logo:'./img/mobile/cases/zhongxingfu/logo.png',
+				  app_name:'中兴付 (移动支付)',
+				  app_dev_time:'DEMO 7天/6人',
+				  app_line_time:'上 线 45天/4人',
+				  con2_txt:'中兴付是中兴通讯发布的首个移动支付产品，可以提供一站式移动支付解决方案，构建移动支付新生态链：链接消费者和商户，融合了多种应用和支付场景。消费者只需要在手机上下载已经电子化的银行卡、公交卡等生活应用卡，就可以用手机取代钱包，直接进行支付。',
+				  item0:'./img/new/zhongxingfu/1.png',
+				  item1:'./img/new/zhongxingfu/2.png',
+				  item2:'./img/new/zhongxingfu/3.png',
+				  ios:false,
+				  and:false,
+				  noDownload:'温馨提示：企业应用,无法提供下载',
+				  ser_item:['SuperWebView',
+					  '统计','mam',
+					  'push','aui'],
+				  con_title:'CTO 黄锐',
+				  server_txt:'中兴付APP规划之初，功能围绕支付场景展开，希望做一款能感知用户的产品，同时支持IOS、Android版本，以上需求实际上涉及三大方面，其一，本身产品功能的实现，其二，希望有统计、有用户行为分析，其三，跨平台支持。掐指一算，手里面的资源完全不敷所用，首先想到的是外包资源，但是通过接触，发现外包资源主要关注功能的交付，其他两方面并无好的方法论支持，迷茫中......。有没有一种工具可以让我只关注功能，快速生成APP，根据用户反馈快速迭代？此时正是2015年的8月，APICloud因为全国巡演，偶遇在重庆山城，有幸现场聆听APICloud CEO刘鑫的布道，顿觉眼前一亮，灯火阑珊处，就是她了--APICloud！</br>选用APICloud后，与APICloud团队积极互动，过关斩将，花了一个月的时间完成中兴付理财支付功能的开发，因为基于跨平台开发，保证了用户体验的一致性，同时解决了支付密码安全控件第三方集成等较为复杂的技术问题。开发过程中也发现对于原生APP既有代码的移植是面临的一个比较大的问题，因为要按APICloud框架重新构建原有代码，会付出较多的人力和时间成本，能不能放弃原生代码，转而使用html+css+javascript呢？答案是不可行，因为部分原生代码主要是要实现一些与手机底层通讯的功能，无法替换。通过和APICloud专家深入讨论，APICloud给出了SuperWebView的解决方案，简单的说，原来是APICloud集成我们，有了SuperWebView后，则是我们集成APICloud，这一变化，对于原生APP的改造所存在的顾虑一扫而光，老问题老办法，新问题新思路，SuperWebView方案做到了前所未有的和谐，为大量既有APP的改造提供了非常好的演进路径！很荣幸，中兴付有幸成为SuperWebView方案的第一个使用者，SuperWebView发布之初，中兴付即按SuperWebView完成了改造，并上线，随着团队对APICloud架构的深入理解，将有更多的功能基于APICloud架构来实现，团队也可以将更多的精力放到业务的规划上，快速开发、快速迭代、用户感知等均借助APICloud平台来完成。我们坚信APICloud将会成为更多互联网业务创新的助推器！'
+			  },//中兴付 (移动支付)
+			  {
+				  show:false,
+				  className:'mengzhu',
+				  app_logo:'./img/mobile/cases/mengzhu/logo.png',
+				  app_name:'萌煮辅食',
+				  app_dev_time:'DEMO 3天/1人',
+				  app_line_time:'上 线 15天/1人',
+				  con2_txt:'萌煮辅食app是一款专门为0-6岁提供的好吃的辅食手机应用，萌煮辅食app均为步骤清晰的图文说明，让新手、小白、甚至是手残党的菜鸟cooker，毫无压力的同时大展身手。',
+				  item0:'./img/mobile/cases/mengzhu/mengzhu1.png',
+				  item1:'./img/mobile/cases/mengzhu/mengzhu2.png',
+				  item2:'./img/mobile/cases/mengzhu/mengzhu3.png',
+				  ios:'./img/mobile/cases/mengzhu/i.jpg',
+				  and:'./img/mobile/cases/mengzhu/a.jpg',
+				  ser_item:['imageFilter',
+					  'UIMediaScanner','sinaWeiBo',
+					  'talkingData','ajpush',
+					  'NVTabBar','UIPullRefreshFlash',
+					  'logger','weiXin',
+					  'UIScrollPicture','zip',
+					  'fs','trans',
+					  'db','weibo',
+					  'wx','qq',
+					  'UIInput','UIMultiSelector',
+					  'dialogBox','privacy',
+					  'tuberBar','citySelector',
+					  'qiniuUpfile','videoPlayer',
+					  'webBrowser','3DTouch',
+					  'UIButton','FNImageClip',
+					  'MNPopups','MNActionButton',
+					  'meiQia','gotyeLivePublisher',
+					  'gotyeLiveCore','gotyeLiveChat',
+					  'gotyeLivePlayer','shareAction',
+					  'mam','UIPullRefreshMotive',
+					  'UIPullRefresh','addressView',
+					  'inputField','alarmNotification',
+					  'gizWifiSDK','FNPhotograph',
+					  'UIActionProgress','UILoading'
+				  ],
+				  con_title:'CTO 尤凯强',
+				  server_txt:'由于是创业公司，一方面产品需要快速发布，另一方面在原生的成本太过于高，对比了相关的混编的平台以后决定选择APICloud，不管是从业务方面还是从扩展性方面APICloud都足够支持所有业务，帮助我们节约了很多时间很，目前我们通过APICloud 上线的应用20W+用户已经有三款了，对于一个新的极客团队我们希望，通过APP改变世界'
+			  },//萌煮辅食
+			  {
+				  show:false,
+				  className:'lianlian',
+				  app_logo:'./img/mobile/cases/lianlian/logo.png',
+				  app_name:'恋练yoga',
+				  app_dev_time:'DEMO 30天/3人',
+				  app_line_time:'上 线 90天/3人',
+				  con2_txt:'「恋练yoga」是一款健身减肥、马甲线瘦身、冥想减压等一站式瑜伽习练应用。帮助用户制定专业的课程训练计划，名师在线答疑解决用户在训练中遇到的各类问题。',
+				  item0:'./img/mobile/cases/lianlian/1.png',
+				  item1:'./img/mobile/cases/lianlian/2.png',
+				  item2:'./img/mobile/cases/lianlian/3.png',
+				  ios:'./img/mobile/cases/lianlian/i.png',
+				  and:'./img/mobile/cases/lianlian/a.png',
+				  ser_item:['audio','wxPay',
+					  'ajpush','weibo',
+					  'zhuge','citySelector',
+					  'imageBrowser','FNScanner',
+					  'dialogBox','aliPay'
+				  ],
+				  con_title:'CTO 李居瑞',
+				  server_txt:'目前APP已成功上线，并取得了市场上检验认可，这个APP的功能比较多，同时也比较复杂，在短短4个月的时间里，能够推出APP上线，离不开我们项目团队的拼搏，在这几个月的时间里，不知道加了多少班，熬了多个通宵，但看到自己开发出来的产品上线，大家心里都有一份骄傲与自豪；当然也要感谢APICloud如此先进的平台，更加提高了我们的开发效率！'
+			  },//恋练yoga
+			  {
+				  show:false,
+				  className:'yefu',
+				  app_logo:'./img/new/yefu/logo.png',
+				  app_name:'野夫钓鱼',
+				  app_dev_time:'DEMO 7天/4人',
+				  app_line_time:'上 线 30天/4人',
+				  con2_txt:'野夫钓鱼致力于打造国内最具特色的垂钓社交平台。提供包括同城约钓、钓鱼人社区、大师在线、新品试用、商户查询（钓场、渔具店）、急问快答、渔具特卖等一站式的垂钓服务。',
+				  item0:'./img/mobile/cases/yefu/yefu1.png',
+				  item1:'./img/mobile/cases/yefu/yefu2.png',
+				  item2:'./img/mobile/cases/yefu/yefu3.png',
+				  ios:'./img/new/yefu/i.jpg',
+				  and:'./img/new/yefu/a.jpg',
+				  ser_item:['alipay','downloadManager',
+					  'fileBrowser','FS',
+					  'qq','scanner',
+					  'trans','zip',
+					  'touched','ajpush',
+					  'baiduNavigation','clipboard',
+					  'screenClip','imageFilter',
+					  'button'
+				  ],
+				  con_title:'CEO 钟宇航',
+				  server_txt:'刚开始选择了原生开发，但开发的进度相当缓慢，经历了一段时间的微信运营试错之后，开始调整开发计划。在确定了后端的框架以及项目部署之后，就开始考虑App这一块的框架结构。大家都知道AppStore的上线和迭代的进展是相当的缓慢，对于新开发App是一道相当大的阻碍。偶然间听以前的一个合作伙伴推荐了APICloud，可以支持静默更新，云编译成安卓和IOS版本，而且对于开发者来说入门的门槛低，上手快，只需要会Html5和Javascript相关技术。在经过和其他混合式开发平台的比较，以及跟开发团队的讨论之后，确定下来使用APICloud开发。经过将近一周的时间我们做了一个DEMO来体验，并针对项目本身可能需要用到的模块进行评估，确定可以达到我们所想要的效果。在经过了将近30天的时候开始提交AppStore，并在将近52天后正式上线。APICloud为我们提供了一个相当完美的解决方案，同时也向大家推荐使用。'
+			  },//野夫钓鱼
+			  {
+				  show:false,
+				  className:'JAMYO',
+				  app_logo:'./img/mobile/cases/jamyo/logo.png',
+				  app_name:'JAMYO',
+				  app_dev_time:'DEMO 30天/3人',
+				  app_line_time:'上 线 45天/4人',
+				  con2_txt:'JAMYO舞蹈娱乐平台携一众流行舞蹈老师为大家带来在线舞蹈教学，汇集老师们的舞蹈学习经验为舞蹈爱好者们减少舞蹈学习的时间成本。“EASY DANCE”是JAMYO的核心理念，让大家更加容易地学习舞蹈，感受舞蹈所带来的乐趣。',
+				  item0:'./img/mobile/cases/jamyo/jamyo1.png',
+				  item1:'./img/mobile/cases/jamyo/jamyo2.png',
+				  item2:'./img/mobile/cases/jamyo/jamyo3.png',
+				  ios:'./img/mobile/cases/jamyo/i.png',
+				  and:'./img/mobile/cases/jamyo/a.png',
+				  ser_item:['videoPlayer','QQPlus',
+					  'wx','weibo',
+					  'bMap','UIChatBox',
+					  'ajpush','ajpush',
+					  'rongCloud2','imageBrowser'
+				  ],
+				  con_title:'CEO JAM',
+				  server_txt:'APICloud的开发模式让APP开发的时间跟人力成本大大降低，只需要招收有网页开发经验的人就可以快速上手并融入团队合作当中。分工方式也基本与网页开发类似。安卓与ios的两个平台调试工作也比较方便，开发工具的不断完善让整个开发流程省心很多。越来越多的模块与模块开发者让APP的拓展性好了很多，希望APICloud能越来越好'
+			  },//JAMYO
+			  {
+				  show:false,
+				  className:'liyu',
+				  app_logo:'./img/mobile/cases/liyu/logo.png',
+				  app_name:'礼遇约会',
+				  app_dev_time:'DEMO 30天/1人',
+				  app_line_time:'上 线 90天/2人',
+				  con2_txt:'2016年约会必备神器 一款专为工作繁忙，生活圈子小，又期待一场浪漫约会的都市人打造的高端、高效、真实、私密的礼物约会APP。在这里，妹子们可以通过约会得到心仪的礼物and一场完美邂逅，男士们不用再烦恼因为时间少而形单影只。 APP特点： [高效]：只要赠送符合女士预期的礼物，即刻收获想要的浪漫之约',
+				  item0:'./img/mobile/cases/liyu/liyu1.png',
+				  item1:'./img/mobile/cases/liyu/liyu2.png',
+				  item2:'./img/mobile/cases/liyu/liyu3.png',
+				  ios:'./img/mobile/cases/liyu/i.png',
+				  and:'./img/mobile/cases/liyu/a.png',
+				  ser_item:['miniQuPai','qiniuUpfile',
+					  'aaaaaaa','aaaaaaa',
+					  'photoBrowser','UIActionSelector',
+					  'UIChatBox','smsVerify',
+					  'bMap','aliPay',
+					  'rongCloud2'
+				  ],
+				  con_title:'CEO 王龙波',
+				  server_txt:'我们是一个创业公司，考虑资金及技术的有限性，尝试用混合开发模式。在对比了几个工具之后，最终选择了APICloud作为开发平台，大大降低了开发难度和周期。APICloud有丰富的模块Store，可以很方便的拿来使用，不用重复造轮子，把精力集中在业务上。一句话，用前端技术造app，就选APICloud。'
+			  },//礼遇约会
+			  {
+				  show:false,
+				  className:'kongse',
+				  app_logo:'./img/mobile/cases/kongse/logo.png',
+				  app_name:'空色美术',
+				  app_dev_time:'DEMO 9天/2人',
+				  app_line_time:'上 线 25天/2人',
+				  con2_txt:'空色美术商城”KUNGSE.COM“是中国第一款专为“美术人”开发设计的艺术类购物软件，包含儿童&少儿、美术高考、艺术家三个年龄层次的所有美术类用品。',
+				  item0:'./img/mobile/cases/kongse/kongse1.png',
+				  item1:'./img/mobile/cases/kongse/kongse2.png',
+				  item2:'./img/mobile/cases/kongse/kongse3.png',
+				  ios:'./img/new/kongse/i.png',
+				  and:'./img/new/kongse/a.png',
+				  ser_item:['actionButton','aliPay',
+					  'qq','navigationBar',
+					  'meChat','ajpush',
+					  'clipBoard++','talkingData',
+					  'wx','imageFilter',
+					  'wxPay','weibo'
+				  ],
+				  con_title:'CTO 黄海峰',
+				  server_txt:'最初选型时是想使用原生，但条件有限，处于创业初期，开发人员和时间都有限，于是选择了混合开发。最后使用APICloud也是经过很多混合开发框架的比较，从开发难度，开发周期，提供的技术支持等等方面都很适合我们现在的开发条件，而且开发出的app整体的体验还是很不错的，对市面上多如牛毛的设备的适配上也很优秀，省去了我们的很多麻烦。APICloud提供的很多开发模块也很是实用，省了很多的开发时间。总的来说，APICloud帮助我们解决了跨平台跨终和开发效率的问题，这也是未来移动app开发的一个趋势。'
+			  },//空色美术
+			  {
+				  show:false,
+				  className:'youjiaoyi',
+				  app_logo:'./img/mobile/cases/youjiaoyi/logo.png',
+				  app_name:'优交易',
+				  app_dev_time:'DEMO 15天/2人',
+				  app_line_time:'上 线 45天/2人',
+				  con2_txt:'优交易，专注于为投资者提供策略资讯和社交工具的垂直社交平台。提供证券投资能力的知识分享及探讨，培养良好的理财心态，实现财富增值。',
+				  item0:'./img/mobile/cases/youjiaoyi/youjiaoyi1.png',
+				  item1:'./img/mobile/cases/youjiaoyi/youjiaoyi2.png',
+				  item2:'./img/mobile/cases/youjiaoyi/youjiaoyi3.png',
+				  ios:'./img/new/youjiaoyi/i.png',
+				  and:'./img/new/youjiaoyi/a.png',
+				  ser_item:['downloadManager','imageBrowser',
+					  'qq','weiXin',
+					  'sinaWeiBo','ajpush',
+					  'talkingData','trans',
+					  'multiSelector','slider',
+					  'UIChatBox','customSelector',
+					  'clipBoard','voiceMag',
+					  'imageClip','UIScrollPicture',
+					  'UIListView','rongCloud2',
+					  'UIMediaScanner'
+				  ],
+				  con_title:'产品总监 杨红进',
+				  server_txt:'2015年伊始，我们计划做一个投资社交平台App，原生开发成本高，一些图表功能原生实现不了，于是准备使用混合开发。对比多家，发现APICloud各方面都做得很好，比较容易上手。由于第一次接触APICloud，很多东西都不会用，只能从官网下载案例来学，遇到不懂的问题上官网的社区咨询，收获颇丰。APICloud的云技术很好，svn可以实现多人协作，极大的提高开发效率。从一个开发者角度来分析，APICloud实在是太强大了。'
+			  },//优交易
+			  {
+				  show:false,
+				  className:'zhangzhong',
+				  app_logo:'./img/mobile/cases/zhangzhong/logo.png',
+				  app_name:'掌中财富',
+				  app_dev_time:'DEMO 14天/2人',
+				  app_line_time:'上 线 60天/2人',
+				  con2_txt:'银行存管的轻理财平台，资金由华兴银行存管，为您提供更安全、便捷的互联网金融服务。',
+				  item0:'./img/mobile/cases/zhangzhong/zhangzhong1.png',
+				  item1:'./img/mobile/cases/zhangzhong/zhangzhong2.png',
+				  item2:'./img/mobile/cases/zhangzhong/zhangzhong3.png',
+				  ios:'./img/mobile/cases/zhangzhong/i.jpg',
+				  and:'./img/mobile/cases/zhangzhong/a.jpg',
+				  ser_item:['Jpush','photoBrowser',
+					  'UIChatBox','DB',
+					  'UICalendar','weixin',
+					  'qq','clipBoard'
+				  ],
+				  con_title:'资深工程师 谭凌德',
+				  server_txt:'使用APICloud初期遇到很多问题，问了官方的技术，也查了不少文档，所以很快速度实现了上线，官方每周都更新，这个对于我们产品的维护升级也很重要。APICloud的文档是我感觉最好的一个文档 方便分类详细'
+			  },//掌中财富
+			  {
+				  show:false,
+				  className:'yantu',
+				  app_logo:'./img/mobile/cases/yantu/logo.png',
+				  app_name:'研途宝考研',
+				  app_dev_time:'DEMO 3天/1人',
+				  app_line_time:'上 线 30天/2人',
+				  con2_txt:'研途宝是国内考研在线教育领先品牌,专注于考研专业课资料研发和一对一辅导,为考生提供考研课程、考研APP、考研论坛、考研吧、考研资料、考研真题下载等全方位服务。',
+				  item0:'./img/mobile/cases/yantu/yantu1.png',
+				  item1:'./img/mobile/cases/yantu/yantu2.png',
+				  item2:'./img/mobile/cases/yantu/yantu3.png',
+				  ios:'./img/mobile/cases/yantu/i.png',
+				  and:'./img/mobile/cases/yantu/a.png',
+				  ser_item:['chromeDebug','meChat',
+					  'sendSms','ajpush',
+					  'rongCloud','alipay',
+					  'videoPlayer'
+				  ],
+				  con_title:'高级工程师 陈艺坤',
+				  server_txt:'原来的研途宝考研APP是采用原生开发，Android端和iOS端的开发进度也不太一样，测试还要花2倍的时间测试两端的问题，导致了周期比较长。 后来偶尔接触到了APICloud，因为之前也用过其他混合平台开发过APP，花了比较少的时间就上手了。 事实也证明选择APICloud是对的，一套代码适用于两端，也节约了我们很多的成本。'
+			  }//研途宝考研
+		  ]},
+		  multiport:{typeName:"multiport",data:[
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'学生端',
+						  active:true,
+						  app_name:'口袋学堂',
+						  app_logo:'./img/mobile/cases/koudaixuetang/logo2.png',
+						  item0:'./img/mobile/cases/koudaixuetang/pic2-1.jpg',
+						  item1:'./img/mobile/cases/koudaixuetang/pic2-2.jpg',
+						  item2:'./img/mobile/cases/koudaixuetang/pic2-3.jpg',
+						  ios:'./img/mobile/cases/koudaixuetang/i2.jpg',
+						  and:'./img/mobile/cases/koudaixuetang/a2.jpg',
+					  },
+					  {
+						  vname:'教师端',
+						  active:true,
+						  app_name:'口袋学堂',
+						  app_logo:'./img/mobile/cases/koudaixuetang/logo1.png',
+						  item0:'./img/mobile/cases/koudaixuetang/pic1-1.jpg',
+						  item1:'./img/mobile/cases/koudaixuetang/pic1-2.jpg',
+						  item2:'./img/mobile/cases/koudaixuetang/pic1-3.jpg',
+						  ios:'./img/mobile/cases/koudaixuetang/i1.jpg',
+						  and:'./img/mobile/cases/koudaixuetang/a1.jpg',
+					  }
+				  ],
+				  className:'koudaixuetang',
+				  app_logo:'./img/mobile/cases/koudaixuetang/logo2.png',
+				  app_name:'口袋学堂',
+				  app_dev_time:'DEMO 15天/2人',
+				  app_line_time:'上 线 90天/5人',
+				  con2_txt:'口袋学堂是一款帮助学生实现在校电子化学习的应用，主要为学生提供在线课堂、作业、出国备考等，同时实时记录和跟踪学习行为',
+				  item0:'./img/mobile/cases/koudaixuetang/pic2-1.jpg',
+				  item1:'./img/mobile/cases/koudaixuetang/pic2-2.jpg',
+				  item2:'./img/mobile/cases/koudaixuetang/pic2-3.jpg',
+				  ios:'./img/mobile/cases/koudaixuetang/i2.jpg',
+				  and:'./img/mobile/cases/koudaixuetang/a2.jpg',
+				  ser_item:['ajpush',
+					  'pdfReader','yzxVerification',
+					  'signature','audio',
+					  'UIInput','fs',
+					  'videoPlayer','zip',
+					  'audioPlayer','UICalendar'],
+				  con_title:'',
+				  server_txt:'口袋学堂去年用原生方式开发了第一版，不仅开发周期长，开发人员水平参差不齐，而且面临移动终端难兼容等问题，因此，我们期望能在高效开发上面有所突破。 今年有幸结识了APICloud，拥有良好的技术团队提供定制服务，为口袋学堂快速开发了高质量的APP，帮我们节省了开发团队管理成本，使团队能专心于教学内容的制作和产品设计。'
+			  },//口袋学堂
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'用户端',
+						  active:true,
+						  app_name:'车主管家',
+						  app_logo:'./img/mobile/cases/chezhu/logo.png',
+						  item0:'./img/mobile/cases/chezhu/pic2-1.png',
+						  item1:'./img/mobile/cases/chezhu/pic2-2.png',
+						  item2:'./img/mobile/cases/chezhu/pic2-3.png',
+						  ios:'./img/mobile/cases/chezhu/i2.jpg',
+						  and:'./img/mobile/cases/chezhu/a2.jpg',
+					  },
+					  {
+						  vname:'商户端',
+						  active:true,
+						  app_name:'车主管家',
+						  app_logo:'./img/mobile/cases/chezhu/logo.png',
+						  item0:'./img/mobile/cases/chezhu/pic1-1.png',
+						  item1:'./img/mobile/cases/chezhu/pic1-2.png',
+						  item2:'./img/mobile/cases/chezhu/pic1-3.png',
+						  ios:'./img/mobile/cases/chezhu/I1.jpg',
+						  and:'./img/mobile/cases/chezhu/a1.jpg',
+					  }
+				  ],
+				  className:'chezhugunajia',
+				  app_logo:'./img/mobile/cases/chezhu/logo.png',
+				  app_name:'车主管家',
+				  app_dev_time:'DEMO 10天/2人',
+				  app_line_time:'上 线 90天/4人',
+				  con2_txt:'车主管家是一款围绕车主需求，利用移动互联+传统汽车经销4S店形式为客户提供更便捷的4S店线上服务平台',
+				  item0:'./img/mobile/cases/chezhu/pic2-1.png',
+				  item1:'./img/mobile/cases/chezhu/pic2-2.png',
+				  item2:'./img/mobile/cases/chezhu/pic2-3.png',
+				  ios:'./img/mobile/cases/chezhu/i2.jpg',
+				  and:'./img/mobile/cases/chezhu/a2.jpg',
+				  ser_item:['UIScrollPicture',
+					  'rongCloud2','UIChatBox','FNImageClip',
+					  'FNScanner','photoBrowser',
+					  'wxPay','pushGeTui',
+					  'ajpush'
+				  ],
+				  con_title:'',
+				  server_txt:'车主管家是一款围绕车主需求，利用移动互联+传统汽车经销4S店形式为客户提供更便捷的4S店线上服务平台，目前通过APICloud合作已经正式上线，用这种方式给企业带来很多好处：1、人员结构上不需要再去招聘不同的APP开发人员，2、对开发人员的要求降低了，3、APICloud平台上的模块化组件，大大提升了开发的周期，同时降低了项目失败的风险。我们车主管家项目开发周期2个月测试版就出来了，后面花了1个月的测试和完善；真心感谢APICloud所有的小伙伴，期待更多合作。'
+			  },//车主管家
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'客户销售',
+						  active:true,
+						  app_name:'一键优服客户销售',
+						  app_logo:'./img/mobile/cases/youfu/logo1.png',
+						  item0:'./img/mobile/cases/youfu/1.png',
+						  item1:'./img/mobile/cases/youfu/2.png',
+						  item2:'./img/mobile/cases/youfu/3.png',
+						  ios:'./img/mobile/cases/youfu/1-i.jpg',
+						  and:'./img/mobile/cases/youfu/1-a.jpg'
+					  },
+					  {
+						  vname:'施工管控 ',
+						  active:false,
+						  app_name:'一键优服施工管控',
+						  app_logo:'./img/mobile/cases/youfu/logo2.png',
+						  item0:'./img/mobile/cases/youfu/1-1.png',
+						  item1:'./img/mobile/cases/youfu/1-2.png',
+						  item2:'./img/mobile/cases/youfu/1-3.png',
+						  ios:'./img/mobile/cases/youfu/2-i.jpg',
+						  and:'./img/mobile/cases/youfu/2-a.jpg'
+					  },
+					  {
+						  vname:'服务售后 ',
+						  active:false,
+						  app_name:'一键优服服务售后',
+						  app_logo:'./img/mobile/cases/youfu/logo3.png',
+						  item0:'./img/mobile/cases/youfu/3-1.png',
+						  item1:'./img/mobile/cases/youfu/3-2.png',
+						  item2:'./img/mobile/cases/youfu/3-3.png',
+						  ios:'./img/mobile/cases/youfu/3-i.jpg',
+						  and:'./img/mobile/cases/youfu/3-a.jpg'
+					  }
+				  ],
+				  className:'youfu',
+				  app_logo:'./img/mobile/cases/youfu/logo1.png',
+				  app_name:'一键优服客户销售',
+				  app_dev_time:'DEMO 5天/1人',
+				  app_line_time:'上 线 14天/1人',
+				  con2_txt:'一键优服客户销售App，是一款专为舒适家居（暖通）工程项目打造的客勤关系管理工具型App，同时能够为不同暖通产品项目给出差异化量房、报价服务。移动端与Web端协同，完成从客户导入、工程量房、明确需求、方案报价、合同洽谈到赢单的完整销售过程管理。',
+				  item0:'./img/mobile/cases/youfu/1.png',
+				  item1:'./img/mobile/cases/youfu/2.png',
+				  item2:'./img/mobile/cases/youfu/3.png',
+				  ios:'./img/mobile/cases/youfu/1-i.jpg',
+				  and:'./img/mobile/cases/youfu/1-a.jpg',
+				  ser_item:['speechRecognizer','UIChatBox',
+					  'gizWifiSDK','bMap',
+					  'talkingData','ajpush',
+					  'wx','qq',
+					  'sinaWeiBo','imageBrowser',
+					  'periodSelector','multiSelector',
+					  'mam','db',
+					  'mcm','fs'
+				  ],
+				  con_title:'合伙人 郑益',
+				  server_txt:'一键优服是国内首个专为舒适家居（暖通）行业打造的移动管理服务平台，整个系统含有客户销售App、施工管控App和售后服务App三款App，开发工作是比较繁重的，且总体下来成本也是一笔很大的支出。由于公司之前开发的Opler全球首套智能采暖系统就是在APICloud开发的，不管是开发速度还是技术水平都让我们非常满意，因此在开发一键优服的时候，我们也是第一时间就找到了APICloud，进行第二次合作。因为Opler智能采暖系统时的愉快合作，一键优服的开发过程更加顺利，项目于2015年10月正式启动，2016年4月三款App便进入了测试阶段。5月30日，一键优服于北京ISH供暖展正式首发，成为展会上最受瞩目的品牌之一。一键优服能够在如此快速的时间内完成开发，离不开整个团队日以继夜的拼搏，但如果没有APICloud这样先进高效的开发平台，我们的工作将会更加辛苦。两次的合作经历更加深了我们对APICloud的认可，也希望APICloud在专业领域内品牌越大越响，让更多创业者和App开发团队享受他们的服务。'
+			  },//一键优服客户销售
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'学生端',
+						  active:true,
+						  app_name:'狸米学习',
+						  app_logo:'./img/mobile/cases/limi/logo1.png',
+						  item0:'./img/mobile/cases/limi/limi1-1.png',
+						  item1:'./img/mobile/cases/limi/limi1-2.png',
+						  item2:'./img/mobile/cases/limi/limi1-3.png',
+						  ios:'./img/mobile/cases/limi/1-i.jpg',
+						  and:'./img/mobile/cases/limi/1-a.jpg'
+					  },
+					  {
+						  vname:'教师端',
+						  active:true,
+						  app_name:'狸米老师',
+						  app_logo:'./img/mobile/cases/limi/logo2.png',
+						  item0:'./img/mobile/cases/limi/limi2-1.png',
+						  item1:'./img/mobile/cases/limi/limi2-2.png',
+						  item2:'./img/mobile/cases/limi/limi2-3.png',
+						  ios:'./img/mobile/cases/limi/2-i.jpg',
+						  and:'./img/mobile/cases/limi/2-a.jpg'
+					  }
+				  ],
+				  className:'limi',
+				  app_logo:'./img/mobile/cases/limi/logo1.png',
+				  app_name:'狸米学习',
+				  app_dev_time:'DEMO 4天/6人',
+				  app_line_time:'上 线 90天/4人',
+				  con2_txt:'由教育部进行推广的一款小学生学习辅助应用，当前已经在多个平台上架，狸米学习永久免费，欢迎广大家长为孩子前来下载；这款工具涵盖当前国内小学所有课程，拥有在线检测功能，就孩子的错题进行统计，并归纳相关知识点，为学生带来有针对性的学习训练，通过有趣的互动环节，培养孩子自学的好习惯，全国提升广大学子的学习成绩。',
+				  item0:'./img/mobile/cases/limi/limi1-1.png',
+				  item1:'./img/mobile/cases/limi/limi1-2.png',
+				  item2:'./img/mobile/cases/limi/limi1-3.png',
+				  ios:'./img/mobile/cases/limi/1-i.jpg',
+				  and:'./img/mobile/cases/limi/1-a.jpg',
+				  ser_item:['navigationBar',
+					  'tabbar','navigationBar',
+					  'fs','wx',
+					  'qq','imageBrowser',
+					  'mcm','tabBar',
+					  'FNScanner','imageClip',
+					  'clipBoard','logger',
+					  'zhiChi','socketManager',
+					  'talkingData','mam'
+				  ],
+				  con_title:'副总裁 张楠',
+				  server_txt:'我们是一家面向K12市场的教育公司，迫切的市场需求，让我们必须选择更加快速、敏捷的开发路线。当时我们的一个工程师推荐APICloud，公司抱着试一试的态度，让他一个人进行尝试，没想到只有一个工程师，只用了10天就完成了基本功能的开发，并且能同时在iOS和安卓全平台发布，让我们感到十分兴奋，所以公司马上决定全面采用APICloud进行狸米老师产品开发。APICloud相对于原生开发来说，大大减少了开发中所需考虑的兼容性问题，只需使用标准前端语言就可以完成所有功能，而且内置了很多扩展模块，可以迅速实现原生功能。'
+			  },//狸米学习
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'用户端',
+						  active:true,
+						  app_name:'众邦快送',
+						  app_logo:'./img/mobile/cases/zhongbang/logo1.png',
+						  item0:'./img/mobile/cases/zhongbang/zhongbang1-1.png',
+						  item1:'./img/mobile/cases/zhongbang/zhongbang1-2.png',
+						  item2:'./img/mobile/cases/zhongbang/zhongbang1-3.png',
+						  ios:'./img/mobile/cases/zhongbang/zhongbang1-i.png',
+						  and:'./img/mobile/cases/zhongbang/zhongbang1-a.png'
+					  },
+					  {
+						  vname:'快递端',
+						  active:false,
+						  app_name:'众邦快递员',
+						  app_logo:'./img/mobile/cases/zhongbang/logo2.png',
+						  item0:'./img/mobile/cases/zhongbang/zhongbang2-1.png',
+						  item1:'./img/mobile/cases/zhongbang/zhongbang2-2.png',
+						  item2:'./img/mobile/cases/zhongbang/zhongbang2-3.png',
+						  ios:'./img/mobile/cases/zhongbang/zhongbang2-i.jpg',
+						  and:'./img/mobile/cases/zhongbang/zhongbang2-a.jpg'
+					  }
+				  ],
+				  className:'zhongbang',
+				  app_logo:'./img/mobile/cases/zhongbang/logo1.png',
+				  app_name:'众邦快送',
+				  app_dev_time:'DEMO 7天/3人',
+				  app_line_time:'上 线 60天/5人',
+				  con2_txt:'众邦快送网旨在利用闲散社会资源解决同城的随程捎带需求，运用移动互联网技术搭建的“同城快递”信息平台。',
+				  item0:'./img/mobile/cases/zhongbang/zhongbang1-1.png',
+				  item1:'./img/mobile/cases/zhongbang/zhongbang1-2.png',
+				  item2:'./img/mobile/cases/zhongbang/zhongbang1-3.png',
+				  ios:'./img/mobile/cases/zhongbang/zhongbang1-i.png',
+				  and:'./img/mobile/cases/zhongbang/zhongbang1-a.png',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//众邦快送
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'社区',
+						  active:true,
+						  app_name:'全众社区',
+						  app_logo:'./img/mobile/cases/quanzhong/logo.png',
+						  item0:'./img/mobile/cases/quanzhong/quanzhong1.png',
+						  item1:'./img/mobile/cases/quanzhong/quanzhong2.png',
+						  item2:'./img/mobile/cases/quanzhong/quanzhong3.png',
+						  ios:'./img/mobile/cases/quanzhong/i.jpg',
+						  and:'./img/mobile/cases/quanzhong/a.jpg'
+					  },
+					  {
+						  vname:'物业',
+						  active:false,
+						  app_name:'全众云物业',
+						  app_logo:'./img/mobile/cases/quanzhongwuye/logo.png',
+						  item0:'./img/mobile/cases/quanzhongwuye/2-1.png',
+						  item1:'./img/mobile/cases/quanzhongwuye/2-2.png',
+						  item2:'./img/mobile/cases/quanzhongwuye/2-3.png',
+						  ios:'./img/mobile/cases/quanzhongwuye/i.jpg',
+						  and:'./img/mobile/cases/quanzhongwuye/a.jpg'
+					  }
+				  ],
+				  className:'quanzhong',
+				  app_logo:'./img/mobile/cases/quanzhong/logo.png',
+				  app_name:'全众社区',
+				  app_dev_time:'DEMO 10天/3人',
+				  app_line_time:'上 线 60天/3人',
+				  con2_txt:'全众社区，是一家专业为物业管理公司提供升级转型的平台服务商，拥有行业内领先的SaaS平台，集收费系统、增值系统、管理系统为一体，多方位服务业主。“全众社区”APP为业主移动终端。',
+				  item0:'./img/mobile/cases/quanzhong/quanzhong1.png',
+				  item1:'./img/mobile/cases/quanzhong/quanzhong2.png',
+				  item2:'./img/mobile/cases/quanzhong/quanzhong3.png',
+				  ios:'./img/mobile/cases/quanzhong/i.jpg',
+				  and:'./img/mobile/cases/quanzhong/a.jpg',
+				  ser_item:['aliPay','citylist',
+					  'imageBrowser','mam',
+					  'push','meChat',
+					  'cityselector'
+				  ],
+				  con_title:'CTO 刘海浪',
+				  server_txt:'我们是一家创业公司，前期产品有一个不断试错的过程，所以我们需要快速对产品进行迭代升级，相对于原生开发，混合开发更具快速迭代版本的特性，APICloud的云修复功能是我选择APICloud的主要原因。在后期的使用中，APICloud给我最大感触就是“快”！版本迭代快，开发速度更快，我们团队三人只用了两周时间就开发出了第一个版本。归功于APICloud提供了很多原生模块，可实现快速调用，而且用户体验相对HTML5更佳。'
+			  },//全众社区
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'用户端',
+						  active:true,
+						  app_name:'食菜网',
+						  app_logo:'./img/mobile/cases/shicaiwang/logo2.png',
+						  item0:'./img/mobile/cases/shicaiwang/shicai2-1.png',
+						  item1:'./img/mobile/cases/shicaiwang/shicai2-2.png',
+						  item2:'./img/mobile/cases/shicaiwang/shicai2-3.png',
+						  ios:'./img/mobile/cases/shicaiwang/1-i.jpg',
+						  and:'./img/mobile/cases/shicaiwang/1-a.jpg'
+					  },
+					  {
+						  vname:'供应商端',
+						  active:false,
+						  app_name:'食菜网',
+						  app_logo:'./img/mobile/cases/shicaiwang/logo1.png',
+						  item0:'./img/mobile/cases/shicaiwang/shicai1-1.png',
+						  item1:'./img/mobile/cases/shicaiwang/shicai1-2.png',
+						  item2:'./img/mobile/cases/shicaiwang/shicai1-3.png',
+						  ios:'./img/mobile/cases/shicaiwang/2-i.jpg',
+						  and:'./img/mobile/cases/shicaiwang/2-a.jpg'
+					  }
+				  ],
+				  className:'shicaiwang',
+				  app_logo:'./img/mobile/cases/shicaiwang/logo1.png',
+				  app_name:'食菜网',
+				  app_dev_time:'DEMO 10天/1人',
+				  app_line_time:'上 线 30天/2人',
+				  con2_txt:'食菜网，集蔬菜、水果、冻品、调料、米面粮油等餐厅食材配送为一体，致力于打通上下游供应链，打造面向餐饮行业的一站式融合服务平台。',
+				  item0:'./img/mobile/cases/shicaiwang/shicai2-1.png',
+				  item1:'./img/mobile/cases/shicaiwang/shicai2-2.png',
+				  item2:'./img/mobile/cases/shicaiwang/shicai2-3.png',
+				  ios:'./img/mobile/cases/shicaiwang/1-i.jpg',
+				  and:'./img/mobile/cases/shicaiwang/1-a.jpg',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//食菜网
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'宠物版',
+						  active:true,
+						  app_name:'好兽医宠物版',
+						  app_logo:'./img/mobile/cases/shouyi/logo1.png',
+						  item0:'./img/mobile/cases/shouyi/shouyi1-1.png',
+						  item1:'./img/mobile/cases/shouyi/shouyi1-2.png',
+						  item2:'./img/mobile/cases/shouyi/shouyi1-3.png',
+						  ios:'./img/mobile/cases/shouyi/1-i.jpg',
+						  and:'./img/mobile/cases/shouyi/1-a.jpg'
+					  },
+					  {
+						  vname:'医生版',
+						  active:false,
+						  app_name:'好兽医医生版',
+						  app_logo:'./img/mobile/cases/shouyi/logo2.png',
+						  item0:'./img/mobile/cases/shouyi/shouyi2-1.png',
+						  item1:'./img/mobile/cases/shouyi/shouyi2-2.png',
+						  item2:'./img/mobile/cases/shouyi/shouyi2-3.png',
+						  ios:'./img/mobile/cases/shouyi/2-i.jpg',
+						  and:'./img/mobile/cases/shouyi/2-a.jpg'
+					  }
+				  ],
+				  className:'shouyi',
+				  app_logo:'./img/mobile/cases/shouyi/logo1.png',
+				  app_name:'好兽医宠物版',
+				  app_dev_time:'DEMO 5天/4人    ',
+				  app_line_time:'上 线 60天/5人',
+				  con2_txt:'好兽医宠物版，是最顶尖的宠物医师，最快速的问题响应，最全面的实时解答，足不出户为亲爱的“她”保驾护航，让您再也不必为没时间去宠物医院而烦恼！',
+				  item0:'./img/mobile/cases/shouyi/shouyi1-1.png',
+				  item1:'./img/mobile/cases/shouyi/shouyi1-2.png',
+				  item2:'./img/mobile/cases/shouyi/shouyi1-3.png',
+				  ios:'./img/mobile/cases/shouyi/1-i.jpg',
+				  and:'./img/mobile/cases/shouyi/1-a.jpg',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  }//好兽医宠物版
+		  ]},
+		  electricity:{typeName:"electricity",data:[
+			  {
+				  show:false,
+				  className:'kongse',
+				  app_logo:'./img/mobile/cases/kongse/logo.png',
+				  app_name:'空色美术',
+				  app_dev_time:'DEMO 9天/2人',
+				  app_line_time:'上 线 25天/2人',
+				  con2_txt:'空色美术商城”KUNGSE.COM“是中国第一款专为“美术人”开发设计的艺术类购物软件，包含儿童&少儿、美术高考、艺术家三个年龄层次的所有美术类用品。',
+				  item0:'./img/mobile/cases/kongse/kongse1.png',
+				  item1:'./img/mobile/cases/kongse/kongse2.png',
+				  item2:'./img/mobile/cases/kongse/kongse3.png',
+				  ios:'./img/new/kongse/i.png',
+				  and:'./img/new/kongse/a.png',
+				  ser_item:['actionButton','aliPay',
+					  'qq','navigationBar',
+					  'meChat','ajpush',
+					  'clipBoard++','talkingData',
+					  'wx','imageFilter',
+					  'wxPay','weibo'
+				  ],
+				  con_title:'CTO 黄海峰',
+				  server_txt:'最初选型时是想使用原生，但条件有限，处于创业初期，开发人员和时间都有限，于是选择了混合开发。最后使用APICloud也是经过很多混合开发框架的比较，从开发难度，开发周期，提供的技术支持等等方面都很适合我们现在的开发条件，而且开发出的app整体的体验还是很不错的，对市面上多如牛毛的设备的适配上也很优秀，省去了我们的很多麻烦。APICloud提供的很多开发模块也很是实用，省了很多的开发时间。总的来说，APICloud帮助我们解决了跨平台跨终和开发效率的问题，这也是未来移动app开发的一个趋势。'
+			  },//空色美术
+			  {
+				  show:false,
+				  className:'liuliang',
+				  app_logo:'./img/mobile/cases/liuliang/logo.png',
+				  app_name:'WO流量钱包',
+				  app_dev_time:'DEMO 7天/3人',
+				  app_line_time:'上 线 30天/3人',
+				  con2_txt:'“WO流量钱包”是由安徽联通官方出品手机流量客户端，以流量币为载体，为用户提供流量实时兑换与订购、套餐查询等服务。',
+				  item0:'./img/mobile/cases/liuliang/liuliang1.png',
+				  item1:'./img/mobile/cases/liuliang/liuliang2.png',
+				  item2:'./img/mobile/cases/liuliang/liuliang3.png',
+				  ios:'./img/mobile/cases/liuliang/liuliang-ios.png',
+				  and:'./img/mobile/cases/liuliang/liuliang-android.png',
+				  ser_item:['aliPay','contact',
+					  'fs','imageBrowser',
+					  'mam','push',
+					  'qq','sinaWeiBo',
+					  'weiXin','citySelector',
+					  'shakeView','baiduMap',
+					  'clipBoard','screenClip',
+					  'talkingData','moduleSMS',
+					  'goodsList','tuberBar',
+					  'selectList','wx',
+					  'FNScanner','unionPay'
+				  ],
+				  con_title:'wo流量钱包 CEO 梁峰',
+				  server_txt:'最开始规划这个项目的时候，时间就比较紧张，所以当时想找有没有快速开发实现上线的方法，在朋友介绍下，我们尝试用APICloud平台进行开发，HTML5、CSS语言本身难度较低，所以实现起来比较容易上手，而且APICloud更新很快，所以基本在时间预期内实现2个系统（Android和iOS)的上线,实现了实现客户的流量定制、流量赠送、流量兑换和流量交易等业务体系，打造贯穿于各种APP应用、手机游戏和社交平台的一体化奖励营销活动平台。'
+			  },//WO流量钱包
+			  {
+				  show:false,
+				  className:'manman',
+				  app_logo:'./img/mobile/cases/manman/logo.png',
+				  app_name:'慢慢买',
+				  app_dev_time:'DEMO 5天/1人',
+				  app_line_time:'上 线 14天/1人',
+				  con2_txt:'慢慢买是一个专业的购物导购、比价网站,汇集了所有主流网上商城的报价、活动促销、历史价格走势等信息。慢慢买倡导理性消费,以让用户买到高性比价商品为宗旨的比价网。',
+				  item0:'./img/mobile/cases/manman/man1.png',
+				  item1:'./img/mobile/cases/manman/man2.png',
+				  item2:'./img/mobile/cases/manman/man3.png',
+				  ios:'./img/mobile/cases/manman/i.jpg',
+				  and:'./img/new/manmanmai/a.png',
+				  ser_item:['qq','sinaWeiBo',
+					  'imageBrowser','speechRecognizer',
+					  'weiXin','db',
+					  'ajpush','talkingData',
+					  'FNScanner','getWebUrl'
+				  ],
+				  con_title:'CTO 毛春杰',
+				  server_txt:'由于公司发展需要，手机版APP经过一个月的折腾就产出来了。对于一个Web前端初期接触手机APP开发无从下手，好在用APICloud开发的好处有：开发入门需求低，以后增加修改程序方便；开发效率高，周期短；一步可以开发Android和iOS，社区用户活跃。之前用其他工具开发过此项目，但在ios8下表现不友好，给人一种是网页制作的感觉，恰巧群上有人提到新出了一个APICloud，抱着试试看的态度运行了他们的demo，安卓和苹果下效果不错，而且官方群上的技术人员热心解决网友遇到的问题。'
+			  },//慢慢买
+			  {
+				  show:false,
+				  className:'life',
+				  app_logo:'./img/mobile/cases/life/logo.png',
+				  app_name:'尚流她生活',
+				  app_dev_time:'DEMO 7天/1人',
+				  app_line_time:'上 线 40天/2人',
+				  con2_txt:'《尚流她生活》是一款为女性用户群体提供的智能购物平台，拥有个性化的购物理念，强智能互联网购物与机器人结合，可以收养你的小机器人，了解你的个性选择，可以智能聊天，为你排忧，不同的场合，可为你推荐不同的时尚穿戴。',
+				  item0:'./img/mobile/cases/life/life1.png',
+				  item1:'./img/mobile/cases/life/life2.png',
+				  item2:'./img/mobile/cases/life/life3.png',
+				  ios:'./img/mobile/cases/life/i.jpg',
+				  and:'./img/mobile/cases/life/life.png',
+				  ser_item:['audio','wxPay',
+					  'ajpush','weibo',
+					  'zhuge','citySelector',
+					  'imageBrowser','FNScanner',
+					  'dialogBox','aliPay'
+				  ],
+				  con_title:'技术负责人 王耀',
+				  server_txt:'目前APP已成功上线，并取得了市场上检验认可，这个APP的功能比较多，同时也比较复杂，在短短4个月的时间里，能够推出APP上线，离不开我们项目团队的拼搏，在这几个月的时间里，不知道加了多少班，熬了多个通宵，但看到自己开发出来的产品上线，大家心里都有一份骄傲与自豪；当然也要感谢APICloud如此先进的平台，更加提高了我们的开发效率！'
+			  },//尚流她生活
+			  {
+				  show:false,
+				  className:'book',
+				  app_logo:'./img/mobile/cases/book/logo.png',
+				  app_name:'旧书街   ',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'旧书街是一个为大学生量身定做的二手书交易平台，可以满足买书、卖书、换书、送书的多元化需求。在旧书街，不仅可以发挥旧书的最大价值，还可以结识到更多热心的书友。',
+				  item0:'./img/mobile/cases/book/book1.png',
+				  item1:'./img/mobile/cases/book/book2.png',
+				  item2:'./img/mobile/cases/book/book3.png',
+				  ios:'./img/mobile/cases/book/i.png',
+				  and:'./img/mobile/cases/book/a.png',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//旧书街
+			  {
+				  show:false,
+				  className:'yuanmi',
+				  app_logo:'./img/mobile/cases/yuanmi/logo.png',
+				  app_name:'源秘',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'一款企业员工专属内部购物平台专属企业商城：海量尊享商品，尊享企业专属特权，依据源网大数据，针对不同企业，个性化推送优质商品，活动推送 个性化解决方案。',
+				  item0:'./img/mobile/cases/yuanmi/yuanmi1.png',
+				  item1:'./img/mobile/cases/yuanmi/yuanmi2.png',
+				  item2:'./img/mobile/cases/yuanmi/yuanmi3.png',
+				  ios:'./img/mobile/cases/yuanmi/i.jpg',
+				  and:'./img/mobile/cases/yuanmi/a.jpg',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//源秘
+			  {
+				  show:false,
+				  className:'duola',
+				  app_logo:'./img/mobile/cases/duola/logo.png',
+				  app_name:'多啦衣梦',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'多啦衣梦app是一款O2O线上租赁平台，给予用户提供更方便、快捷、有效、多元化的服装租赁体验。多啦衣梦用户仅需缴纳小额月租，便可在有效服务期间在上万件女性服饰中选择并体验任意服饰，不限次数。',
+				  item0:'./img/mobile/cases/duola/duola1.png',
+				  item1:'./img/mobile/cases/duola/duola2.png',
+				  item2:'./img/mobile/cases/duola/duola3.png',
+				  ios:'./img/mobile/cases/duola/i.png',
+				  and:'./img/mobile/cases/duola/a.png',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//多啦衣梦
+			  {
+				  show:false,
+				  className:'nahuo',
+				  app_logo:'./img/mobile/cases/nahuo/logo.png',
+				  app_name:'拿货帮',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'拿货帮，一款方便服装店主拿货拼货的app，致力于为服装店主们提供新鲜的爆款信息，通过此平台，来找到适合自己店铺风格的商品，即使足不出户也可以看全球好货拼货下单。一件起批，轻松拿货，告别0库存，解决去到一批市场拿不起量、拿货效率低，拿货体验差等烦恼。',
+				  item0:'./img/mobile/cases/nahuo/nahuo1.png',
+				  item1:'./img/mobile/cases/nahuo/nahuo2.png',
+				  item2:'./img/mobile/cases/nahuo/nahuo3.png',
+				  ios:'./img/mobile/cases/nahuo/i.jpg',
+				  and:'./img/mobile/cases/nahuo/a.jpg',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//拿货帮
+			  {
+				  show:false,
+				  className:'lingqiantao',
+				  app_logo:'./img/mobile/cases/lingqiantao/logo.png',
+				  app_name:'零钱淘',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'一款手机端一元夺宝购物软件。全场海量商品，正品有保障，1元钱任你淘，通过零钱就有机会中大奖。中奖规则一目了然，绝对公平公正公开。',
+				  item0:'./img/mobile/cases/lingqiantao/ling1.png',
+				  item1:'./img/mobile/cases/lingqiantao/ling2.png',
+				  item2:'./img/mobile/cases/lingqiantao/ling3.png',
+				  ios:'./img/mobile/cases/lingqiantao/i.png',
+				  and:'./img/mobile/cases/lingqiantao/a.png',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//零钱淘
+			  {
+				  show:false,
+				  className:'aoshima',
+				  app_logo:'./img/mobile/cases/aoshima/logo.png',
+				  app_name:'澳仕玛',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'极力打造钓具O2O电商平台，商品种类丰富多样，打破传统钓具行业交易模式，线下门店、线上购物，为您提供优质服务体验。',
+				  item0:'./img/mobile/cases/aoshima/ao1.png',
+				  item1:'./img/mobile/cases/aoshima/ao2.png',
+				  item2:'./img/mobile/cases/aoshima/ao3.png',
+				  ios:'./img/mobile/cases/aoshima/i.png',
+				  and:'./img/mobile/cases/aoshima/a.png',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  }//澳仕玛
+		  ]},
+		  O2O:{typeName:"O2O",data:[
+			  {
+				  show:false,
+				  className:'yefu',
+				  app_logo:'./img/new/yefu/logo.png',
+				  app_name:'野夫钓鱼',
+				  app_dev_time:'DEMO 7天/4人',
+				  app_line_time:'上 线 30天/4人',
+				  con2_txt:'野夫钓鱼致力于打造国内最具特色的垂钓社交平台。提供包括同城约钓、钓鱼人社区、大师在线、新品试用、商户查询（钓场、渔具店）、急问快答、渔具特卖等一站式的垂钓服务。',
+				  item0:'./img/mobile/cases/yefu/yefu1.png',
+				  item1:'./img/mobile/cases/yefu/yefu2.png',
+				  item2:'./img/mobile/cases/yefu/yefu3.png',
+				  ios:'./img/new/yefu/i.jpg',
+				  and:'./img/new/yefu/a.jpg',
+				  ser_item:['alipay','downloadManager',
+					  'fileBrowser','FS',
+					  'qq','scanner',
+					  'trans','zip',
+					  'touched','ajpush',
+					  'baiduNavigation','clipboard',
+					  'screenClip','imageFilter',
+					  'button'
+				  ],
+				  con_title:'CEO 钟宇航',
+				  server_txt:'刚开始选择了原生开发，但开发的进度相当缓慢，经历了一段时间的微信运营试错之后，开始调整开发计划。在确定了后端的框架以及项目部署之后，就开始考虑App这一块的框架结构。大家都知道AppStore的上线和迭代的进展是相当的缓慢，对于新开发App是一道相当大的阻碍。偶然间听以前的一个合作伙伴推荐了APICloud，可以支持静默更新，云编译成安卓和IOS版本，而且对于开发者来说入门的门槛低，上手快，只需要会Html5和Javascript相关技术。在经过和其他混合式开发平台的比较，以及跟开发团队的讨论之后，确定下来使用APICloud开发。经过将近一周的时间我们做了一个DEMO来体验，并针对项目本身可能需要用到的模块进行评估，确定可以达到我们所想要的效果。在经过了将近30天的时候开始提交AppStore，并在将近52天后正式上线。APICloud为我们提供了一个相当完美的解决方案，同时也向大家推荐使用。'
+			  },//野夫钓鱼
+			  {
+				  show:false,
+				  className:'yunyang',
+				  app_logo:'./img/new/yunyang/logo.png',
+				  app_name:'掌上云阳',
+				  app_dev_time:'DEMO 5天/2人',
+				  app_line_time:'上 线 15天/2人',
+				  con2_txt:'聚集云阳餐饮、酒店宾馆、家居建材、旅游景点、房产、休闲娱乐场所、婚庆服务、汽车服务各种的商家信息!提供商家优惠打折活动和优惠券领取。',
+				  item0:'./img/mobile/cases/yunyang/yunyang1.png',
+				  item1:'./img/mobile/cases/yunyang/yunyang2.png',
+				  item2:'./img/mobile/cases/yunyang/yunyang3.png',
+				  ios:'./img/new/yunyang/i.png',
+				  and:'./img/new/yunyang/a.png',
+				  ser_item:['aliPay',
+					  'wxPay','UICalendar',
+					  'FNScanner','sinaWeiBo',
+					  'baiduMap','imageBrowser',
+					  'ajpush','qq',
+					  'meChat'
+				  ],
+				  con_title:'CEO 曾德勇',
+				  server_txt:'选择混合开发时最初在很多开发平台之间徘徊过，最后选择了APICloud是因为APICloud体验最能接近原生这是我们选择APICloud的主要原因。在开发的过程中，APICloud给我最大感触就是文档全,容易上手！官方解决问题速度快。APICloud提供了很多原生模块，这点让我们开发起来非常爽，节省了很多事。'
+			  },//掌上云阳
+			  {
+				  show:false,
+				  className:'tieniu',
+				  app_logo:'./img/new/tieniu/logo.png',
+				  app_name:'铁牛养车',
+				  app_dev_time:'DEMO 30天/2人',
+				  app_line_time:'上 线 60天/2人',
+				  con2_txt:'铁牛养车是致力于打造挂车行业一站式服务平台！买挂车，选配件，就上铁牛养车！',
+				  item0:'./img/new/tieniu/1.png',
+				  item1:'./img/new/tieniu/2.png',
+				  item2:'./img/new/tieniu/3.png',
+				  ios:'./img/new/tieniu/i.jpg',
+				  and:'./img/new/tieniu/a.jpg',
+				  ser_item:['imageBrowser',
+					  'photoBrowser','mcm',
+					  'qq','wx',
+					  'weibo','bMap',
+					  'privacy','UIScrollPicture',
+					  'privacy','aaaaaaa',
+					  'UIMediaScanner','UICityList',
+					  'navigationBar'
+				  ],
+				  con_title:'铁牛养车 产品经理 丁福昌',
+				  server_txt:'对于初创团队来说，开发原生的多平台的app不仅成本较高，而且人才招聘相对较难；所以决定使用混合开发工具，对比后发现APICloud比较容易上手，功能很完善，能满足我们产品的需求！正式开发后，APICloud更新频率，bug的解决速度，都比较快，社区也很活跃！让我们使用起来很放心，省心！'
+			  },//铁牛养车
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'社区',
+						  active:true,
+						  app_name:'全众社区',
+						  app_logo:'./img/mobile/cases/quanzhong/logo.png',
+						  item0:'./img/mobile/cases/quanzhong/quanzhong1.png',
+						  item1:'./img/mobile/cases/quanzhong/quanzhong2.png',
+						  item2:'./img/mobile/cases/quanzhong/quanzhong3.png',
+						  ios:'./img/mobile/cases/quanzhong/i.jpg',
+						  and:'./img/mobile/cases/quanzhong/a.jpg'
+					  },
+					  {
+						  vname:'物业',
+						  active:false,
+						  app_name:'全众云物业',
+						  app_logo:'./img/mobile/cases/quanzhongwuye/logo.png',
+						  item0:'./img/mobile/cases/quanzhongwuye/2-1.png',
+						  item1:'./img/mobile/cases/quanzhongwuye/2-2.png',
+						  item2:'./img/mobile/cases/quanzhongwuye/2-3.png',
+						  ios:'./img/mobile/cases/quanzhongwuye/i.jpg',
+						  and:'./img/mobile/cases/quanzhongwuye/a.jpg'
+					  }
+				  ],
+				  className:'quanzhong',
+				  app_logo:'./img/mobile/cases/quanzhong/logo.png',
+				  app_name:'全众社区',
+				  app_dev_time:'DEMO 10天/3人',
+				  app_line_time:'上 线 60天/3人',
+				  con2_txt:'全众社区，是一家专业为物业管理公司提供升级转型的平台服务商，拥有行业内领先的SaaS平台，集收费系统、增值系统、管理系统为一体，多方位服务业主。“全众社区”APP为业主移动终端。',
+				  item0:'./img/mobile/cases/quanzhong/quanzhong1.png',
+				  item1:'./img/mobile/cases/quanzhong/quanzhong2.png',
+				  item2:'./img/mobile/cases/quanzhong/quanzhong3.png',
+				  ios:'./img/mobile/cases/quanzhong/i.jpg',
+				  and:'./img/mobile/cases/quanzhong/a.jpg',
+				  ser_item:['aliPay','citylist',
+					  'imageBrowser','mam',
+					  'push','meChat',
+					  'cityselector'
+				  ],
+				  con_title:'CTO 刘海浪',
+				  server_txt:'我们是一家创业公司，前期产品有一个不断试错的过程，所以我们需要快速对产品进行迭代升级，相对于原生开发，混合开发更具快速迭代版本的特性，APICloud的云修复功能是我选择APICloud的主要原因。在后期的使用中，APICloud给我最大感触就是“快”！版本迭代快，开发速度更快，我们团队三人只用了两周时间就开发出了第一个版本。归功于APICloud提供了很多原生模块，可实现快速调用，而且用户体验相对HTML5更佳。'
+			  },//全众社区
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'用户端',
+						  active:true,
+						  app_name:'众邦快送',
+						  app_logo:'./img/mobile/cases/zhongbang/logo1.png',
+						  item0:'./img/mobile/cases/zhongbang/zhongbang1-1.png',
+						  item1:'./img/mobile/cases/zhongbang/zhongbang1-2.png',
+						  item2:'./img/mobile/cases/zhongbang/zhongbang1-3.png',
+						  ios:'./img/mobile/cases/zhongbang/zhongbang1-i.png',
+						  and:'./img/mobile/cases/zhongbang/zhongbang1-a.png'
+					  },
+					  {
+						  vname:'快递端',
+						  active:false,
+						  app_name:'众邦快递员',
+						  app_logo:'./img/mobile/cases/zhongbang/logo2.png',
+						  item0:'./img/mobile/cases/zhongbang/zhongbang2-1.png',
+						  item1:'./img/mobile/cases/zhongbang/zhongbang2-2.png',
+						  item2:'./img/mobile/cases/zhongbang/zhongbang2-3.png',
+						  ios:'./img/mobile/cases/zhongbang/zhongbang2-i.jpg',
+						  and:'./img/mobile/cases/zhongbang/zhongbang2-a.jpg'
+					  }
+				  ],
+				  className:'zhongbang',
+				  app_logo:'./img/mobile/cases/zhongbang/logo1.png',
+				  app_name:'众邦快送',
+				  app_dev_time:'DEMO 7天/3人',
+				  app_line_time:'上 线 60天/5人',
+				  con2_txt:'众邦快送网旨在利用闲散社会资源解决同城的随程捎带需求，运用移动互联网技术搭建的“同城快递”信息平台。',
+				  item0:'./img/mobile/cases/zhongbang/zhongbang1-1.png',
+				  item1:'./img/mobile/cases/zhongbang/zhongbang1-2.png',
+				  item2:'./img/mobile/cases/zhongbang/zhongbang1-3.png',
+				  ios:'./img/mobile/cases/zhongbang/zhongbang1-i.png',
+				  and:'./img/mobile/cases/zhongbang/zhongbang1-a.png',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//众邦快送
+			  {
+				  show:false,
+				  className:'pengyoujia',
+				  app_logo:'./img/mobile/cases/pengyoujia/logo.png',
+				  app_name:'朋友家',
+				  app_dev_time:'DEMO 45天/2人',
+				  app_line_time:'上 线 90天/2人',
+				  con2_txt:'国内首个基于熟人关系的社交民宿平台,致力于“将信任这个世界的人连接起来”,建设一个完全信任的空间分享社区。',
+				  item0:'./img/mobile/cases/pengyoujia/friend1.png',
+				  item1:'./img/mobile/cases/pengyoujia/friend2.png',
+				  item2:'./img/mobile/cases/pengyoujia/friend3.png',
+				  ios:'./img/mobile/cases/pengyoujia/i.jpg',
+				  and:'./img/mobile/cases/pengyoujia/a.jpg',
+				  ser_item:['weiXin',
+					  'ajpush','talkingData',
+					  'aliPay','rongCloud2'
+				  ],
+				  con_title:'朋友家 CEO 蒲荔子',
+				  server_txt:'在开发“朋友家APP”第1版时，我们机缘巧合地找到了一个熟悉APICloud开发平台的技术外包团队。基于APICloud开发平台，我们迅速地进行原型开发并进入市场，很快就拿到了天使投资。在项目开发过程中，我们得到了APICloud官方技术人员的大力支持，在一些关键模块的整合和解决方案上提供了极大的帮助。基于APICloud平台的众多优点，我们在后续的版本迭代中依然采用了APICloud来开发。现在，朋友家APP已经成长为国内共享经济的新锐代表和国内精选民宿第一品牌。感谢APICloud平台，希望该平台在混合式APP开发领域做更多创新，给广大开发者和创业者带来更多的便利。'
+			  },//朋友家
+			  {
+				  show:false,
+				  className:'baogong',
+				  app_logo:'./img/mobile/cases/baogong/logo.png',
+				  app_name:'包公',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'包公app是一款为建筑行业从业者打造的手机应用，在这里不光可以查看到各类土地- 投标- 中标等相关信息内容，房建主体劳务分包，房建主材招标，房建机械招标，房建主体施工环节的风险管理，房建施工环节的供应链融资和咨询服务。',
+				  item0:'./img/mobile/cases/baogong/baogong1.png',
+				  item1:'./img/mobile/cases/baogong/baogong2.png',
+				  item2:'./img/mobile/cases/baogong/baogong3.png',
+				  ios:'./img/mobile/cases/baogong/i.png',
+				  and:'./img/mobile/cases/baogong/a.png',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  }//包公
+		  ]},
+		  social:{typeName:"social",data:[
+			  {
+				  show:false,
+				  className:'JAMYO',
+				  app_logo:'./img/mobile/cases/jamyo/logo.png',
+				  app_name:'JAMYO',
+				  app_dev_time:'DEMO 30天/3人',
+				  app_line_time:'上 线 45天/4人',
+				  con2_txt:'JAMYO舞蹈娱乐平台携一众流行舞蹈老师为大家带来在线舞蹈教学，汇集老师们的舞蹈学习经验为舞蹈爱好者们减少舞蹈学习的时间成本。“EASY DANCE”是JAMYO的核心理念，让大家更加容易地学习舞蹈，感受舞蹈所带来的乐趣。',
+				  item0:'./img/mobile/cases/jamyo/jamyo1.png',
+				  item1:'./img/mobile/cases/jamyo/jamyo2.png',
+				  item2:'./img/mobile/cases/jamyo/jamyo3.png',
+				  ios:'./img/mobile/cases/jamyo/i.png',
+				  and:'./img/mobile/cases/jamyo/a.png',
+				  ser_item:['videoPlayer','QQPlus',
+					  'wx','weibo',
+					  'bMap','UIChatBox',
+					  'ajpush','ajpush',
+					  'rongCloud2','imageBrowser'
+				  ],
+				  con_title:'CEO JAM',
+				  server_txt:'APICloud的开发模式让APP开发的时间跟人力成本大大降低，只需要招收有网页开发经验的人就可以快速上手并融入团队合作当中。分工方式也基本与网页开发类似。安卓与ios的两个平台调试工作也比较方便，开发工具的不断完善让整个开发流程省心很多。越来越多的模块与模块开发者让APP的拓展性好了很多，希望APICloud能越来越好'
+			  },//JAMYO
+			  {
+				  show:false,
+				  className:'liyu',
+				  app_logo:'./img/mobile/cases/liyu/logo.png',
+				  app_name:'礼遇约会',
+				  app_dev_time:'DEMO 30天/1人',
+				  app_line_time:'上 线 90天/2人',
+				  con2_txt:'2016年约会必备神器 一款专为工作繁忙，生活圈子小，又期待一场浪漫约会的都市人打造的高端、高效、真实、私密的礼物约会APP。在这里，妹子们可以通过约会得到心仪的礼物and一场完美邂逅，男士们不用再烦恼因为时间少而形单影只。 APP特点： [高效]：只要赠送符合女士预期的礼物，即刻收获想要的浪漫之约',
+				  item0:'./img/mobile/cases/liyu/liyu1.png',
+				  item1:'./img/mobile/cases/liyu/liyu2.png',
+				  item2:'./img/mobile/cases/liyu/liyu3.png',
+				  ios:'./img/mobile/cases/liyu/i.png',
+				  and:'./img/mobile/cases/liyu/a.png',
+				  ser_item:['miniQuPai','qiniuUpfile',
+					  'aaaaaaa','aaaaaaa',
+					  'photoBrowser','UIActionSelector',
+					  'UIChatBox','smsVerify',
+					  'bMap','aliPay',
+					  'rongCloud2'
+				  ],
+				  con_title:'CEO 王龙波',
+				  server_txt:'我们是一个创业公司，考虑资金及技术的有限性，尝试用混合开发模式。在对比了几个工具之后，最终选择了APICloud作为开发平台，大大降低了开发难度和周期。APICloud有丰富的模块Store，可以很方便的拿来使用，不用重复造轮子，把精力集中在业务上。一句话，用前端技术造app，就选APICloud。'
+			  },//礼遇约会
+			  {
+				  show:false,
+				  className:'ououzuqiu',
+				  app_logo:'./img/mobile/cases/ououzuqiu/logo.png',
+				  app_name:'偶偶足球',
+				  app_dev_time:'DEMO 40天/2人',
+				  app_line_time:'上 线 120天/2人',
+				  con2_txt:'偶偶从专业的足球产品报道、评测、鉴定，到足球产品视频、电商平台、二手交易、正品商家认证等多维度提供一站式专业化服务。',
+				  item0:'./img/mobile/cases/ououzuqiu/ou1.png',
+				  item1:'./img/mobile/cases/ououzuqiu/ou2.png',
+				  item2:'./img/mobile/cases/ououzuqiu/ou3.png',
+				  ios:'./img/new/ouou/i.png',
+				  and:'./img/new/ouou/a.png',
+				  ser_item:['iamgeBrowser',
+					  'qq','inputField',
+					  'meChat','ajpush',
+					  'clipBoard','wx',
+					  'UIScrollPicture','UISearchBar',
+					  'UIChatBox','UICalendar',
+					  'weibo','UIScrollPicture',
+					  'UIInput','rongCloud2',
+					  'mcm'
+				  ],
+				  con_title:'CTO   Serron Luo',
+				  server_txt:'团队初期，考虑到缺乏原生开发人员，所以决定尝试混合开发工具，最开始是使用另一个开发工具，但体验不好，而且出现bug后解决速度特别慢，更新迭代速度慢对于一个新产品来说是很致命的，后来在交流群里听说APICloud不错，所以打算了解下，论坛是我们当时想重点做好的，看到APICLloud提供了一个窗口组，这个让我觉得很方便，正式开发后，APICloud更新频率，bug的解决速度，API调用的传参方式都很好，感觉选对了平台，真的让我们省了很多心。'
+			  },//偶偶足球
+			  {
+				  show:false,
+				  className:'baifang',
+				  app_logo:'./img/mobile/cases/baifang/logo.png',
+				  app_name:'百芳网',
+				  app_dev_time:'DEMO 6天/2人',
+				  app_line_time:'上 线 35天/2人',
+				  con2_txt:'百芳(香港)网络有限公司旗下女性成长社区，专注于发布精选真人搭配照片，独家专访有故事的独立时尚达人，推荐独特视角潮流资讯，深度报道民间活的精彩，穿的出彩的美丽女性。',
+				  item0:'./img/mobile/cases/baifang/bai1.png',
+				  item1:'./img/mobile/cases/baifang/bai2.png',
+				  item2:'./img/mobile/cases/baifang/bai3.png',
+				  ios:'./img/mobile/cases/baifang/i.png',
+				  and:'./img/mobile/cases/baifang/a.png',
+				  ser_item:['mam',
+					  'push','qq',
+					  'citySelector','inputField',
+					  'wx','UISearchBar',
+					  'weibo','bMap',
+				  ],
+				  con_title:'百芳 联合创始人 郭方',
+				  server_txt:'百芳网女性时尚社区APP完全基于APICloud及其免费组件开发，开发过程中，完美实现了APP启动界面不升级版本更新、imageCache图片缓存函数过慢优化、iOs状态栏样式兼容性调整、图片上传百分比进度实时显示、Zepto框架与APICloud系统脚本兼容实现交互操作、系统消息推送和通知推送、APP启动新消息提醒、微博QQ登录分享、列表下滑分页加载、用户登录令牌安全设置、新版本检查等关键应用，使用了9个系统模块（mam、push、qq、citySelector、inputField、wx、UISearchBar、weibo）。 2015年5月中旬的时候，我们还准备开始操刀Swift先推出主站的iOs应用，一个偶然的机会从36氪上看到了APICloud的报道，第一眼并不太相信这个东西有太大实用价值，估摸着跟phonegap之类的东东差不多，噱头而已，随后，持续关注了两天发现社区更新非常快，粉丝都很热衷这个工具，于是就耐心看了看文档，感觉很贴合自己的需求。Javascript这个程序员必备语言，不用太花时间就直接投入编码了，需求我已经酝酿很久了、烂熟于心，只待找到利器。编码之初，参考了玩转晋城源码、并结合官方文档，一步步走完，到android apk和ios app上线。狂赞APICloud！'
+			  },//百芳网
+			  {
+				  show:false,
+				  className:'ISART',
+				  app_logo:'./img/mobile/cases/ISART/logo.png',
+				  app_name:'ISART',
+				  app_dev_time:'DEMO 7天/3人',
+				  app_line_time:'上 线 60天/3人',
+				  con2_txt:'ISART是为艺术创作者搭建的专业社交平台，每天从全球邀请十位艺术创作者分析自己的创作过程, 并提供免费的推广、免费线下画展、免费书籍出版服务。',
+				  item0:'./img/mobile/cases/ISART/isart1.png',
+				  item1:'./img/mobile/cases/ISART/isart2.png',
+				  item2:'./img/mobile/cases/ISART/isart3.png',
+				  ios:'./img/mobile/cases/ISART/i.png',
+				  and:'./img/mobile/cases/ISART/a.png',
+				  ser_item:['navigationBar',
+					  'UIScrollPicture',
+					  'UICityList','UIPullRefresh',
+					  'Flash','rongCloud2',
+					  'UIChatBox','sinaWeiBo',
+					  'weibo'
+				  ],
+				  con_title:'ISART 创始人 刘阿伟',
+				  server_txt:'项目启动很久了，先后开发失败五六次，损失了不少精力和钱，后来产品总监在我极力反对的状态下用APICloud进行了开发，而现在剩下的就是满满的收获和感激。'
+			  },//ISART
+			  {
+				  show:false,
+				  className:'liaochengliao',
+				  app_logo:'./img/mobile/cases/liaochengliao/logo.png',
+				  app_name:'聊城聊',
+				  app_dev_time:'DEMO 30天/3人',
+				  app_line_time:'上 线 60天/3人',
+				  con2_txt:'聊城聊是一款聊城人自己的社交朋友圈，聊城的朋友可以在线分享自己身边的信息，帮助你实时的了解自己的动态信息，大家快来一起聊聊你身边的让人身边的事吧！最具人气的生活交流互动社区，为590万聊城人提供生活交流、消费分享、购物指导等实用服务。',
+				  item0:'./img/mobile/cases/liaochengliao/liao1.png',
+				  item1:'./img/mobile/cases/liaochengliao/liao2.png',
+				  item2:'./img/mobile/cases/liaochengliao/liao3.png',
+				  ios:'./img/mobile/cases/liaochengliao/i.jpg',
+				  and:'./img/mobile/cases/liaochengliao/a.jpg',
+				  ser_item:['mam',
+					  'baiduLocation','UIChatBox',
+					  'imageBrowser','UIMediaScanner',
+					  'ajpush','qq',
+					  'wx'
+				  ],
+				  con_title:'聊城聊 CEO 李健',
+				  server_txt:'始考虑开发论坛APP项目，但对于我们这个创业团队来说，市场上并没有太成熟的discuz平台的APP产品，并且原生开发的APP不仅成本高，而且开发时间长，后期修改我们也缺乏原生开发人员。一次偶然的机会我们看到了APICLOUD，在经过和其他混合式开发平台的比较，以及跟开发团队的讨论之后，我们决定使用APICLOUD来开发，具体原因呢，第一感觉论坛氛围很浓厚，第二对于开发者来说入门的门槛很低，完全可以通过现有手机版快速修改上线，可以保证手机端和APP端风格可以统一，一举二得。经过在论坛不断的学习及调试，我们基本达到了我们初期开始想要的APP论坛效果，前期内测体验用户反馈效果还不错，在这里要隆重感谢APICLOUD，能够让我们这些初创团队能够快速开发和迭代我们的产品，大幅度降低开发成本，同时也祝APICLOUD越来越好。'
+			  },//聊城聊
+			  {
+				  show:false,
+				  className:'mixian',
+				  app_logo:'./img/mobile/cases/mixian/logo.png',
+				  app_name:'蜜线',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'蜜线app专为个人技能服务打造的社区，能随时发布各种求助任务，寻求他人的帮助，也能发布自己的特长，帮助他人赚取佣金，更能在线发布各种活动，是您寻求需求的好帮手。',
+				  item0:'./img/mobile/cases/mixian/mixian1.png',
+				  item1:'./img/mobile/cases/mixian/mixian2.png',
+				  item2:'./img/mobile/cases/mixian/mixian3.png',
+				  ios:'./img/mobile/cases/mixian/i.jpg',
+				  and:'./img/mobile/cases/mixian/a.jpg',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//蜜线
+			  {
+				  show:false,
+				  className:'danshengou',
+				  app_logo:'./img/mobile/cases/danshengou/logo.png',
+				  app_name:'单身狗',
+				  app_dev_time:'DEMO 30天/1人',
+				  app_line_time:'上 线 90天/1人',
+				  con2_txt:'单身狗，是一个单身标签，首款有文创思想的单身交友app，首款拒绝伪单身的应用。他是一条要去西天取经的单身狗，有一天会踏着七彩祥云，右手拿着金箍棒变成的玫瑰，左手拿着紧箍咒变成的戒指，娶意中人。单身狗的我，想知道你是否单身？',
+				  item0:'./img/mobile/cases/danshengou/dog1.png',
+				  item1:'./img/mobile/cases/danshengou/dog2.png',
+				  item2:'./img/mobile/cases/danshengou/dog3.png',
+				  ios:'./img/mobile/cases/danshengou/i.png',
+				  and:'./img/mobile/cases/danshengou/a.png',
+				  ser_item:['rongCloud2',
+					  'aMapLocation','shakeView',
+					  'contacts'
+				  ],
+				  con_title:'单身狗 创始人 魏国银',
+				  server_txt:'对于初创团队来说，开发原生的多平台的app不仅成本较高，而且人才招聘相对较难；所以决定使用混合开发工具，之前也用过其他混合开发平台，但效果不佳，最后开发“单身狗”使用了APICloud，发现APICloud的在功能和服务上都是最好的。'
+			  },//单身狗
+			  {
+				  show:false,
+				  className:'qianshuibang',
+				  app_logo:'./img/mobile/cases/qianshuibang/logo.png',
+				  app_name:'潜水帮',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'潜水帮app是一款为潜水爱好者准备的软件，潜水帮app中每天都会分享潜水最新资讯，你可以在这里组建自己的帮派，和更多热爱潜水的小伙伴交流学习，同时你也可以在这里了解更多的潜水知识。',
+				  item0:'./img/mobile/cases/qianshuibang/qian1.png',
+				  item1:'./img/mobile/cases/qianshuibang/qian2.png',
+				  item2:'./img/mobile/cases/qianshuibang/qian3.png',
+				  ios:'./img/mobile/cases/qianshuibang/i.png',
+				  and:'./img/mobile/cases/qianshuibang/a.png',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  }//潜水帮
+		  ]},
+		  education:{typeName:"education",data:[
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'学生端',
+						  active:true,
+						  app_name:'口袋学堂',
+						  app_logo:'./img/mobile/cases/koudaixuetang/logo2.png',
+						  item0:'./img/mobile/cases/koudaixuetang/pic2-1.jpg',
+						  item1:'./img/mobile/cases/koudaixuetang/pic2-2.jpg',
+						  item2:'./img/mobile/cases/koudaixuetang/pic2-3.jpg',
+						  ios:'./img/mobile/cases/koudaixuetang/i2.jpg',
+						  and:'./img/mobile/cases/koudaixuetang/a2.jpg',
+					  },
+					  {
+						  vname:'教师端',
+						  active:false,
+						  app_name:'口袋学堂',
+						  app_logo:'./img/mobile/cases/koudaixuetang/logo1.png',
+						  item0:'./img/mobile/cases/koudaixuetang/pic1-1.jpg',
+						  item1:'./img/mobile/cases/koudaixuetang/pic1-2.jpg',
+						  item2:'./img/mobile/cases/koudaixuetang/pic1-3.jpg',
+						  ios:'./img/mobile/cases/koudaixuetang/i1.jpg',
+						  and:'./img/mobile/cases/koudaixuetang/a1.jpg',
+					  }
+				  ],
+				  className:'koudaixuetang',
+				  app_logo:'./img/mobile/cases/koudaixuetang/logo2.png',
+				  app_name:'口袋学堂',
+				  app_dev_time:'DEMO 15天/2人',
+				  app_line_time:'上 线 90天/5人',
+				  con2_txt:'口袋学堂是一款帮助学生实现在校电子化学习的应用，主要为学生提供在线课堂、作业、出国备考等，同时实时记录和跟踪学习行为',
+				  item0:'./img/mobile/cases/koudaixuetang/pic2-1.jpg',
+				  item1:'./img/mobile/cases/koudaixuetang/pic2-2.jpg',
+				  item2:'./img/mobile/cases/koudaixuetang/pic2-3.jpg',
+				  ios:'./img/mobile/cases/koudaixuetang/i2.jpg',
+				  and:'./img/mobile/cases/koudaixuetang/a2.jpg',
+				  ser_item:['ajpush',
+					  'pdfReader','yzxVerification',
+					  'signature','audio',
+					  'UIInput','fs',
+					  'videoPlayer','zip',
+					  'audioPlayer','UICalendar'],
+				  con_title:'',
+				  server_txt:'口袋学堂去年用原生方式开发了第一版，不仅开发周期长，开发人员水平参差不齐，而且面临移动终端难兼容等问题，因此，我们期望能在高效开发上面有所突破。 今年有幸结识了APICloud，拥有良好的技术团队提供定制服务，为口袋学堂快速开发了高质量的APP，帮我们节省了开发团队管理成本，使团队能专心于教学内容的制作和产品设计。'
+			  },//口袋学堂
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'学生端',
+						  active:true,
+						  app_name:'狸米学习',
+						  app_logo:'./img/mobile/cases/limi/logo1.png',
+						  item0:'./img/mobile/cases/limi/limi1-1.png',
+						  item1:'./img/mobile/cases/limi/limi1-2.png',
+						  item2:'./img/mobile/cases/limi/limi1-3.png',
+						  ios:'./img/mobile/cases/limi/1-i.jpg',
+						  and:'./img/mobile/cases/limi/1-a.jpg'
+					  },
+					  {
+						  vname:'教师端',
+						  active:false,
+						  app_name:'狸米老师',
+						  app_logo:'./img/mobile/cases/limi/logo2.png',
+						  item0:'./img/mobile/cases/limi/limi2-1.png',
+						  item1:'./img/mobile/cases/limi/limi2-2.png',
+						  item2:'./img/mobile/cases/limi/limi2-3.png',
+						  ios:'./img/mobile/cases/limi/2-i.jpg',
+						  and:'./img/mobile/cases/limi/2-a.jpg'
+					  }
+				  ],
+				  className:'limi',
+				  app_logo:'./img/mobile/cases/limi/logo1.png',
+				  app_name:'狸米学习',
+				  app_dev_time:'DEMO 4天/6人',
+				  app_line_time:'上 线 90天/4人',
+				  con2_txt:'由教育部进行推广的一款小学生学习辅助应用，当前已经在多个平台上架，狸米学习永久免费，欢迎广大家长为孩子前来下载；这款工具涵盖当前国内小学所有课程，拥有在线检测功能，就孩子的错题进行统计，并归纳相关知识点，为学生带来有针对性的学习训练，通过有趣的互动环节，培养孩子自学的好习惯，全国提升广大学子的学习成绩。',
+				  item0:'./img/mobile/cases/limi/limi1-1.png',
+				  item1:'./img/mobile/cases/limi/limi1-2.png',
+				  item2:'./img/mobile/cases/limi/limi1-3.png',
+				  ios:'./img/mobile/cases/limi/1-i.jpg',
+				  and:'./img/mobile/cases/limi/1-a.jpg',
+				  ser_item:['navigationBar',
+					  'tabbar','navigationBar',
+					  'fs','wx',
+					  'qq','imageBrowser',
+					  'mcm','tabBar',
+					  'FNScanner','imageClip',
+					  'clipBoard','logger',
+					  'zhiChi','socketManager',
+					  'talkingData','mam'
+				  ],
+				  con_title:'副总裁 张楠',
+				  server_txt:'我们是一家面向K12市场的教育公司，迫切的市场需求，让我们必须选择更加快速、敏捷的开发路线。当时我们的一个工程师推荐APICloud，公司抱着试一试的态度，让他一个人进行尝试，没想到只有一个工程师，只用了10天就完成了基本功能的开发，并且能同时在iOS和安卓全平台发布，让我们感到十分兴奋，所以公司马上决定全面采用APICloud进行狸米老师产品开发。APICloud相对于原生开发来说，大大减少了开发中所需考虑的兼容性问题，只需使用标准前端语言就可以完成所有功能，而且内置了很多扩展模块，可以迅速实现原生功能。'
+			  },//狸米学习
+			  {
+				  show:false,
+				  className:'xueban',
+				  app_logo:'./img/new/xueban/logo.png',
+				  app_name:'雪瓣',
+				  app_dev_time:'DEMO 10天/3人',
+				  app_line_time:'上 线 100天/3人',
+				  con2_txt:'雪瓣是一款社区学习交友服务软件，想让自己闲暇时间多充充电，想多结交一些志同道合的朋友，想让自己的业余生活丰富起来，那就赶快用雪瓣吧。雪瓣即学伴-来雪瓣“拼”私教，叫上老朋友，认识新朋友，拼回感情，拼回生活',
+				  item0:'./img/new/xueban/1.png',
+				  item1:'./img/new/xueban/2.png',
+				  item2:'./img/new/xueban/3.png',
+				  ios:'./img/new/xueban/i.jpg',
+				  and:'./img/new/xueban/a.jpg',
+				  ser_item:['aliPay',
+					  'baiduLocation','calendar',
+					  'contact','downloadManager',
+					  'fs','imageBrowser',
+					  'periodSelector','UIsearchBar',
+					  'weiXin','listContact',
+					  'UIscrollPicture','inputField',
+					  'rongCloud2','camera360'
+				  ],
+				  con_title:'技术负责人 李俊东',
+				  server_txt:'我们是一家面向私教服务的创业型公司，早期APP采用其他平台开发，但平台不稳定，BUG层出不穷，后来经过再三权衡，选择了转移到apicloud平台，仅只用了一周时间，APP就基于apicloud重构完成。目前我们的app版本已经达到5.0，前后云编译不下万次。apicloud给我的总体感觉是：开发快速，平台稳定，服务周到，值得信赖！'
+			  },//雪瓣
+			  {
+				  show:false,
+				  className:'yantu',
+				  app_logo:'./img/mobile/cases/yantu/logo.png',
+				  app_name:'研途宝考研',
+				  app_dev_time:'DEMO 3天/1人',
+				  app_line_time:'上 线 30天/2人',
+				  con2_txt:'研途宝是国内考研在线教育领先品牌,专注于考研专业课资料研发和一对一辅导,为考生提供考研课程、考研APP、考研论坛、考研吧、考研资料、考研真题下载等全方位服务。',
+				  item0:'./img/mobile/cases/yantu/yantu1.png',
+				  item1:'./img/mobile/cases/yantu/yantu2.png',
+				  item2:'./img/mobile/cases/yantu/yantu3.png',
+				  ios:'./img/mobile/cases/yantu/i.png',
+				  and:'./img/mobile/cases/yantu/a.png',
+				  ser_item:['chromeDebug','meChat',
+					  'sendSms','ajpush',
+					  'rongCloud','alipay',
+					  'videoPlayer'
+				  ],
+				  con_title:'高级工程师 陈艺坤',
+				  server_txt:'原来的研途宝考研APP是采用原生开发，Android端和iOS端的开发进度也不太一样，测试还要花2倍的时间测试两端的问题，导致了周期比较长。 后来偶尔接触到了APICloud，因为之前也用过其他混合平台开发过APP，花了比较少的时间就上手了。 事实也证明选择APICloud是对的，一套代码适用于两端，也节约了我们很多的成本。'
+			  },//研途宝考研
+			  {
+				  show:false,
+				  className:'kuaiji',
+				  app_logo:'./img/mobile/cases/kuaiji/logo.png',
+				  app_name:'会计学堂',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'会计学堂是一款考会计从业资格证的必备机考题库系统,是会计人职场入门、工作经验学习必备的会计随身学习软件。',
+				  item0:'./img/mobile/cases/kuaiji/kuai1.png',
+				  item1:'./img/mobile/cases/kuaiji/kuai2.png',
+				  item2:'./img/mobile/cases/kuaiji/kuai3.png',
+				  ios:'./img/mobile/cases/kuaiji/i.png',
+				  and:'./img/mobile/cases/kuaiji/a.png',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//会计学堂
+			  {
+				  show:false,
+				  className:'lianlian',
+				  app_logo:'./img/mobile/cases/lianlian/logo.png',
+				  app_name:'恋练yoga',
+				  app_dev_time:'DEMO 30天/3人',
+				  app_line_time:'上 线 90天/3人',
+				  con2_txt:'「恋练yoga」是一款健身减肥、马甲线瘦身、冥想减压等一站式瑜伽习练应用。帮助用户制定专业的课程训练计划，名师在线答疑解决用户在训练中遇到的各类问题。',
+				  item0:'./img/mobile/cases/lianlian/1.png',
+				  item1:'./img/mobile/cases/lianlian/2.png',
+				  item2:'./img/mobile/cases/lianlian/3.png',
+				  ios:'./img/mobile/cases/lianlian/i.png',
+				  and:'./img/mobile/cases/lianlian/a.png',
+				  ser_item:['audio','wxPay',
+					  'ajpush','weibo',
+					  'zhuge','citySelector',
+					  'imageBrowser','FNScanner',
+					  'dialogBox','aliPay'
+				  ],
+				  con_title:'CTO 李居瑞',
+				  server_txt:'目前APP已成功上线，并取得了市场上检验认可，这个APP的功能比较多，同时也比较复杂，在短短4个月的时间里，能够推出APP上线，离不开我们项目团队的拼搏，在这几个月的时间里，不知道加了多少班，熬了多个通宵，但看到自己开发出来的产品上线，大家心里都有一份骄傲与自豪；当然也要感谢APICloud如此先进的平台，更加提高了我们的开发效率！'
+			  },//恋练yoga
+			  {
+				  show:false,
+				  className:'finance',
+				  app_logo:'./img/mobile/cases/finance/logo.png',
+				  app_name:'Hi-Finance',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'Hi-Finance，立足金融实务在线教育，致力于为广大金融机构、相关从业人员及对金融感兴趣的小伙伴提供“金融实务内容的一站式解决方案”。',
+				  item0:'./img/mobile/cases/finance/finance1.png',
+				  item1:'./img/mobile/cases/finance/finance2.png',
+				  item2:'./img/mobile/cases/finance/finance3.png',
+				  ios:'./img/mobile/cases/finance/i.png',
+				  and:'./img/mobile/cases/finance/a.png',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//Hi-Finance
+			  {
+				  show:false,
+				  className:'donger',
+				  app_logo:'./img/mobile/cases/donger/logo.png',
+				  app_name:'懂儿',
+				  app_dev_time:'DEMO 60天/3人',
+				  app_line_time:'上 线 180天/3人',
+				  con2_txt:'懂儿，以幼儿园、家长、商家为主要服务对象，专注于打造集视频、社交、资讯、电商于一体的育儿服务平台。',
+				  item0:'./img/mobile/cases/donger/donger1.png',
+				  item1:'./img/mobile/cases/donger/donger2.png',
+				  item2:'./img/mobile/cases/donger/donger3.png',
+				  ios:'./img/mobile/cases/donger/i.jpg',
+				  and:'./img/mobile/cases/donger/a.jpg',
+				  ser_item:['fs','7764',
+					  'db','qq',
+					  'weibo','UIMediaScanner',
+					  'trans','talkingData',
+					  'push','aliPay',
+					  'wx','wxPay',
+					  'downloadManager','imageBrowser',
+					  'netAudio','UIScrollPicture',
+					  'FNImageClip','qCloudVODPlayer',
+					  'marketScore','UICityList',
+					  'baiduLocation','audio',
+					  'audioCover','clipBoard',
+					  'bubbleMenu','navigationMenu',
+					  'videoPlayer','UISelector',
+					  'UICalendar','UIChatBox',
+					  'UISearchBar','navigationBar',
+					  'imageFilter'
+				  ],
+				  con_title:'懂儿 项目经理 黎勇标',
+				  server_txt:'团队初期，我们没有原生开发的人员，所以决定使用APICloud混合开发工具，做了两款小应用，感觉特别棒，时间短效果好，社区很活跃。于是我们全力投入到APICloud的怀抱，感谢APICloud的工作人员给我们提供了这么好的平台。'
+			  }//懂儿
+		  ]},
+		  message:{typeName:"message",data:[
+			  {
+				  show:false,
+				  className:'xiaobaozhushou',
+				  app_logo:'./img/mobile/cases/xiaobao/logo.png',
+				  app_name:'消保助手',
+				  app_dev_time:'DEMO 10天/1人',
+				  app_line_time:'上 线 60天/3人',
+				  con2_txt:'消保助手是一款专业的消费者购物保障工具软件。本软件旨在帮助消费者方便快捷查询商品包装、QS、成分表等各项信息是否符合国家强制性标准，及时推送权威部门公告以及消费权益保护相关的法律法规和案例检索服务。',
+				  item0:'./img/mobile/cases/xiaobao/pic-1.jpg',
+				  item1:'./img/mobile/cases/xiaobao/pic-2.jpg',
+				  item2:'./img/mobile/cases/xiaobao/pic-3.jpg',
+				  ios:'./img/mobile/cases/xiaobao/i.jpg',
+				  and:'./img/mobile/cases/xiaobao/a.jpg',
+				  ser_item:['UIListView',
+					  'aliPay','qq',
+					  'wx','UIInput',
+					  'UICityList','UIMediaScanner',
+					  'ajpush','pdfReader',
+					  'compactPicture','FNImageClip'
+				  ],
+				  con_title:'',
+				  server_txt:'消保助手立项目标是全国首家消费维权专业法律服务平台。为广大消费者提供法律、鉴检、金融、咨询等完整解决方案和一站式服务。为抢在5月国务院消费升级供给侧改革相关政策出台前上线，我要求2个月内完成开发。但与多个项目团队沟通均无法解决时间问题。 幸运偶遇APICloud确保了消保助手如期上线。两个月的先发优势确立了消保助手—中国消费维权专业法律服务领域第一品牌的地位。'
+			  },//消保助手
+			  {
+				  show:false,
+				  className:'shangzhuangyuan',
+				  app_logo:'./img/mobile/cases/shangzhuangyuan/logo.png',
+				  app_name:'商状元',
+				  app_dev_time:'DEMO 10天/2人',
+				  app_line_time:'上 线 30天/3人',
+				  con2_txt:'商状元是国内首款针对商业人，提供商业知识分发与定制服务APP，帮助商业人提升商业智慧以及获得更优的职业升迁和更多的商业机会',
+				  item0:'./img/mobile/cases/shangzhuangyuan/pic-2.png',
+				  item1:'./img/mobile/cases/shangzhuangyuan/pic-3.png',
+				  item2:'./img/mobile/cases/shangzhuangyuan/pic-4.png',
+				  ios:'./img/mobile/cases/shangzhuangyuan/i.jpg',
+				  and:'./img/mobile/cases/shangzhuangyuan/a.jpg',
+				  ser_item:['UIInput',
+					  'qq','wx',
+					  'weibo','fs',
+					  'db','UIListView',
+					  'photoBrowser','UIMediaScanner',
+					  'trans'],
+				  con_title:'',
+				  server_txt:'商状元是国内首款针对商业人，提供商业知识分发与定制服务APP，帮助商业人提升商业智慧以及获得更优的职业升迁和更多的商业机会。在APICloud帮助下，终于赶在年底前上线，帮我们节省了团队的折腾成本，使团队能专心于内容的制作和产品设计'
+			  },//商状元
+			  {
+				  show:false,
+				  className:'lianlian',
+				  app_logo:'./img/mobile/cases/lianlian/logo.png',
+				  app_name:'恋练yoga',
+				  app_dev_time:'DEMO 30天/3人',
+				  app_line_time:'上 线 90天/3人',
+				  con2_txt:'「恋练yoga」是一款健身减肥、马甲线瘦身、冥想减压等一站式瑜伽习练应用。帮助用户制定专业的课程训练计划，名师在线答疑解决用户在训练中遇到的各类问题。',
+				  item0:'./img/mobile/cases/lianlian/1.png',
+				  item1:'./img/mobile/cases/lianlian/2.png',
+				  item2:'./img/mobile/cases/lianlian/3.png',
+				  ios:'./img/mobile/cases/lianlian/i.png',
+				  and:'./img/mobile/cases/lianlian/a.png',
+				  ser_item:['audio','wxPay',
+					  'ajpush','weibo',
+					  'zhuge','citySelector',
+					  'imageBrowser','FNScanner',
+					  'dialogBox','aliPay'
+				  ],
+				  con_title:'CTO 李居瑞',
+				  server_txt:'目前APP已成功上线，并取得了市场上检验认可，这个APP的功能比较多，同时也比较复杂，在短短4个月的时间里，能够推出APP上线，离不开我们项目团队的拼搏，在这几个月的时间里，不知道加了多少班，熬了多个通宵，但看到自己开发出来的产品上线，大家心里都有一份骄傲与自豪；当然也要感谢APICloud如此先进的平台，更加提高了我们的开发效率！'
+			  },//恋练yoga
+			  {
+				  show:false,
+				  className:'fangtai',
+				  app_logo:'./img/mobile/cases/fangtai/logo.png',
+				  app_name:'方太生活家',
+				  app_dev_time:'DEMO 14天/2人',
+				  app_line_time:'上 线 75天/5人',
+				  con2_txt:'健康养生菜谱、减肥美容菜谱、家常菜菜谱、蒸菜菜谱、烘焙菜谱、最in的环球美食菜谱一应俱全。线上美食线下课程完美结合，想吃的美食不会做，我们来教！',
+				  item0:'./img/mobile/cases/fangtai/1.png',
+				  item1:'./img/mobile/cases/fangtai/2.png',
+				  item2:'./img/mobile/cases/fangtai/3.png',
+				  ios:'./img/mobile/cases/fangtai/i.png',
+				  and:'./img/mobile/cases/fangtai/a.png',
+				  ser_item:['umengAnalytics','mam',
+					  'qq','wx',
+					  'pingpp','UIPullRefreshFlash',
+					  'bMap','ajpush'
+				  ],
+				  con_title:'项目经理 时英祥',
+				  server_txt:'方太生活家最开始用原生开发过1.0和2.0等多个版本，但最终效果和迭代上无法满足要求，浪费了不少时间和精力，后来使用APICloud进行了开发，快速迭代，加快的项目进度，大大加快了项目效率，收获了极大的惊喜。'
+			  },//方太生活家
+			  {
+				  show:false,
+				  className:'changjiangrb',
+				  app_logo:'./img/mobile/cases/wuhan/logo.png',
+				  app_name:'长江日报',
+				  app_dev_time:'DEMO 60天/3人',
+				  app_line_time:'上 线 15天/2人',
+				  con2_txt:'长江日报是长江日报官方网站长江网重点打造的一款基于武汉热点事件及热门话题推荐的新闻阅读客户端：设置有头条、武汉、天下、时评等十余个新闻栏目，以及视频、微聚合、荐新闻、移动数字报等移动端特色产品。通过手机随时随地了解每天不一样的武汉，了解最新发生的国内外新闻。',
+				  item0:'./img/mobile/cases/wuhan/wuhan1.png',
+				  item1:'./img/mobile/cases/wuhan/wuhan2.png',
+				  item2:'./img/mobile/cases/wuhan/wuhan3.png',
+				  ios:'./img/mobile/cases/wuhan/i.png',
+				  and:'./img/mobile/cases/wuhan/a.png',
+				  ser_item:['baiduLocation','imageBrowser','mam','qq','push','ajpush','ping++','talkingdata','wx','contacts','weibo','FNScanner','videoplayer'],
+				  con_title:'开发主管 彭蔚',
+				  server_txt:'项目初期，使用过国内多个混合开发平台，最后都因为产品体验达不到预期而放弃。偶然发现APICloud，通过线上demo，感觉体验不错，立马进行项目改造整合，调试方便，文档详细，发布迅速，体验流畅。完全符合项目的基本需求，长期的WebApp开发经验让我们快速上手APICloud。在各平台的兼容也能及时处理。在由Web通向Native的道路上，混合确实是个很好的解决方案，而APICloud是目前该方案各大厂家中的不二之选。'
+			  },//长江日报
+			  {
+				  show:false,
+				  className:'yujia',
+				  app_logo:'./img/mobile/cases/yujia/logo.png',
+				  app_name:'瑜伽基因',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'瑜伽基因app将传统的瑜伽体式进行功能分类，为不同需要的人群设计不同的课程内容。针对某一目标的课程，练习更加有效有动力。',
+				  item0:'./img/mobile/cases/yujia/yujia1.png',
+				  item1:'./img/mobile/cases/yujia/yujia2.png',
+				  item2:'./img/mobile/cases/yujia/yujia3.png',
+				  ios:'./img/mobile/cases/yujia/i.jpg',
+				  and:'./img/mobile/cases/yujia/a.jpg',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//瑜伽基因
+			  {
+				  show:false,
+				  className:'chuanyue',
+				  app_logo:'./img/new/chuanyue/logo.png',
+				  app_name:'传悦',
+				  app_dev_time:'DEMO 14天/2人',
+				  app_line_time:'上 线 60天/2人',
+				  con2_txt:'很多朋友都在传悦上开始了书籍分享，让躺在书橱久不翻阅的书籍焕发出新的生命。你也可以找到同样喜欢这本书的朋友，畅聊心得。一起让书籍变得更自由，与你分享的快乐胜过我独自拥有。',
+				  item0:'./img/new/chuanyue/1.png',
+				  item1:'./img/new/chuanyue/2.png',
+				  item2:'./img/new/chuanyue/3.png',
+				  ios:'./img/new/chuanyue/i.jpg',
+				  and:'./img/new/chuanyue/a.jpg',
+				  ser_item:['ping++','hitChatBox',
+					  'rongCloud','Scanne',
+					  'qq','weiXin',
+					  'sinaWeiBo','ajpush',
+					  'baiduLocation'
+				  ],
+				  con_title:'传悦 CEO丁恒 CTO 陈高敏',
+				  server_txt:'我们团队有一个产品的想法，但是都只有web开发经验。挑来挑去看到APICloud，有封装好的模块。这对我们这个小团队来讲真的是雪中送炭一般。我们不知道自己完成这些模块需要多久，当时从需求到上线就用了2个月，对我们兼职团队来说真的很不错。APICloud最少帮我们节省了一半的开发时间。顺便说一下，每次在论坛提出功能意见都解决的很及时，社区真不错。'
+			  },//传悦
+			  {
+				  show:false,
+				  className:'xianggang',
+				  app_logo:'./img/mobile/cases/xianggang/logo.png',
+				  app_name:'香港卫视',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'香港卫视，国际传媒集团是新兴的传媒集团，是一家集卫星电视、网络电视、影视剧投资为一体的国际传媒集团。为亿万电视受众精心提供信息、财经、时尚、影视、旅游等多元文化的优质节目。',
+				  item0:'./img/mobile/cases/xianggang/xianggang1.png',
+				  item1:'./img/mobile/cases/xianggang/xianggang2.png',
+				  item2:'./img/mobile/cases/xianggang/xianggang3.png',
+				  ios:'./img/mobile/cases/xianggang/i.jpg',
+				  and:'./img/mobile/cases/xianggang/a.jpg',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  }//香港卫视
+		  ]},
+		  IOT:{typeName:"IOT",data:[
+			  {
+				  show:false,
+				  className:'opler',
+				  app_logo:'./img/mobile/cases/opler/logo.png',
+				  app_name:'opler 智能采暖',
+				  app_dev_time:'DEMO 15天/3人',
+				  app_line_time:'上 线 45天/3人',
+				  con2_txt:'Opler智能温控器，用户可以通过移动终端来操控家庭采暖的智能硬件设备。同时Opler专注打造地暖已装、新装用户及售后服务市场的B2B2C及O2O商业模式平台，提高地暖集成安装商服务能力水平及服务利润，同时提升地暖用户的用户体验。',
+				  item0:'./img/mobile/cases/opler/1.PNG',
+				  item1:'./img/mobile/cases/opler/2.PNG',
+				  item2:'./img/mobile/cases/opler/3.PNG',
+				  ios:'./img/new/opler/i.png',
+				  and:'./img/new/opler/a.png',
+				  ser_item:['mam','db','mcm','fs','speechRecognizer',
+					  'UIChatBox','gizWifiSDK','bMap','talkingData','ajpush','wx',
+					  'qq','sinaWeiBo','imageBrowser','periodSelector',
+					  'multiSelector'
+				  ],
+				  con_title:'郑益 合伙人',
+				  server_txt:'2015年4月，Opler创业项目正式启动，首先要做的就是温控器硬件设备及APP的设计开发。在App的开发上，针对于当时的内部开发能力及相关资源情况，传统的开发方式（纯原生）且不说是不是可以按期达成，仅开发成本将是一笔很大的支出，由于本人一直关注着新开发资源及平台技术的发展，在经过一番深入研究对比，最终我决定以APICloud的开发框架技术做为我们的APP的开发解决方案，最终事实证明我的决定是完全正确的。在2个月时间左右开发团队就搞定了2个App的双系统的开发工作，平均1月1个APP的开发速度，从而成功推出上架，抢占了商机，甩开竞争对手好几条马路！</br>到今天，我们的产品已经成功上市并取得市场的检验认可，能在这短短的6个月时间成功推出软硬件产品离不开我们团队的拼搏，但如果没有找到像APICloud这样的先进快速的开发技术平台，我们的团队将会付出更多的资源及投入，所以我们也希望APICloud能在这块领域做的更好更精，让更多的创业者们以及APP开发团队能更快更省更专业的推出他们的产品。'
+			  },//opler 智能采暖
+			  {
+				  show:false,
+				  className:'mengzhu',
+				  app_logo:'./img/mobile/cases/mengzhu/logo.png',
+				  app_name:'萌煮辅食',
+				  app_dev_time:'DEMO 3天/1人',
+				  app_line_time:'上 线 15天/1人',
+				  con2_txt:'萌煮辅食app是一款专门为0-6岁提供的好吃的辅食手机应用，萌煮辅食app均为步骤清晰的图文说明，让新手、小白、甚至是手残党的菜鸟cooker，毫无压力的同时大展身手。',
+				  item0:'./img/mobile/cases/mengzhu/mengzhu1.png',
+				  item1:'./img/mobile/cases/mengzhu/mengzhu2.png',
+				  item2:'./img/mobile/cases/mengzhu/mengzhu3.png',
+				  ios:'./img/mobile/cases/mengzhu/i.jpg',
+				  and:'./img/mobile/cases/mengzhu/a.jpg',
+				  ser_item:['imageFilter',
+					  'UIMediaScanner','sinaWeiBo',
+					  'talkingData','ajpush',
+					  'NVTabBar','UIPullRefreshFlash',
+					  'logger','weiXin',
+					  'UIScrollPicture','zip',
+					  'fs','trans',
+					  'db','weibo',
+					  'wx','qq',
+					  'UIInput','UIMultiSelector',
+					  'dialogBox','privacy',
+					  'tuberBar','citySelector',
+					  'qiniuUpfile','videoPlayer',
+					  'webBrowser','3DTouch',
+					  'UIButton','FNImageClip',
+					  'MNPopups','MNActionButton',
+					  'meiQia','gotyeLivePublisher',
+					  'gotyeLiveCore','gotyeLiveChat',
+					  'gotyeLivePlayer','shareAction',
+					  'mam','UIPullRefreshMotive',
+					  'UIPullRefresh','addressView',
+					  'inputField','alarmNotification',
+					  'gizWifiSDK','FNPhotograph',
+					  'UIActionProgress','UILoading'
+				  ],
+				  con_title:'CTO 尤凯强',
+				  server_txt:'由于是创业公司，一方面产品需要快速发布，另一方面在原生的成本太过于高，对比了相关的混编的平台以后决定选择APICloud，不管是从业务方面还是从扩展性方面APICloud都足够支持所有业务，帮助我们节约了很多时间很，目前我们通过APICloud 上线的应用20W+用户已经有三款了，对于一个新的极客团队我们希望，通过APP改变世界'
+			  },//萌煮辅食
+			  {
+				  show:false,
+				  className:'meiyou',
+				  app_logo:'./img/mobile/cases/meiyou/logo.png',
+				  app_name:'美友智能补水仪',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'运用超高速震动补水，导出雾化分子与肌肤轻柔接触，为肌肤补水，同时能够准确检测肌肤六大部位肌肤属性，一键查看测试结果，快速解读肌肤状况，自动储存历史数据，智能跟踪帮助你深入了解肌肤状态。',
+				  item0:'./img/mobile/cases/meiyou/meiyou1.png',
+				  item1:'./img/mobile/cases/meiyou/meiyou2.png',
+				  item2:'./img/mobile/cases/meiyou/meiyou3.png',
+				  ios:'',
+				  and:'',
+				  noDownload:'iot智能硬件：需配合硬件体验，暂不提供下载',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//美友智能补水仪
+			  {
+				  show:false,
+				  className:'boles',
+				  app_logo:'./img/mobile/cases/boles/logo.png',
+				  app_name:'BoleSmart',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'一款家电智能手机控制软件，配合网络硬件设备，可实现用手机界面操作控制家电插座的开、关、定时、倒计时、随时定时，灯具的亮度，色温等。',
+				  item0:'./img/mobile/cases/boles/bolesmart1.png',
+				  item1:'./img/mobile/cases/boles/bolesmart2.png',
+				  item2:'./img/mobile/cases/boles/bolesmart3.png',
+				  ios:'',
+				  and:'',
+				  noDownload:'iot智能硬件：需配合硬件体验，暂不提供下载',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  }//BoleSmart
+		  ]},
+		  financial:{typeName:"financial",data:[
+			  {
+				  show:false,
+				  className:'opler',
+				  app_logo:'./img/mobile/cases/opler/logo.png',
+				  app_name:'opler 智能采暖',
+				  app_dev_time:'DEMO 15天/3人',
+				  app_line_time:'上 线 45天/3人',
+				  con2_txt:'Opler智能温控器，用户可以通过移动终端来操控家庭采暖的智能硬件设备。同时Opler专注打造地暖已装、新装用户及售后服务市场的B2B2C及O2O商业模式平台，提高地暖集成安装商服务能力水平及服务利润，同时提升地暖用户的用户体验。',
+				  item0:'./img/mobile/cases/opler/1.PNG',
+				  item1:'./img/mobile/cases/opler/2.PNG',
+				  item2:'./img/mobile/cases/opler/3.PNG',
+				  ios:'./img/new/opler/i.png',
+				  and:'./img/new/opler/a.png',
+				  ser_item:['mam','db','mcm','fs','speechRecognizer',
+					  'UIChatBox','gizWifiSDK','bMap','talkingData','ajpush','wx',
+					  'qq','sinaWeiBo','imageBrowser','periodSelector',
+					  'multiSelector'
+				  ],
+				  con_title:'郑益 合伙人',
+				  server_txt:'2015年4月，Opler创业项目正式启动，首先要做的就是温控器硬件设备及APP的设计开发。在App的开发上，针对于当时的内部开发能力及相关资源情况，传统的开发方式（纯原生）且不说是不是可以按期达成，仅开发成本将是一笔很大的支出，由于本人一直关注着新开发资源及平台技术的发展，在经过一番深入研究对比，最终我决定以APICloud的开发框架技术做为我们的APP的开发解决方案，最终事实证明我的决定是完全正确的。在2个月时间左右开发团队就搞定了2个App的双系统的开发工作，平均1月1个APP的开发速度，从而成功推出上架，抢占了商机，甩开竞争对手好几条马路！</br>到今天，我们的产品已经成功上市并取得市场的检验认可，能在这短短的6个月时间成功推出软硬件产品离不开我们团队的拼搏，但如果没有找到像APICloud这样的先进快速的开发技术平台，我们的团队将会付出更多的资源及投入，所以我们也希望APICloud能在这块领域做的更好更精，让更多的创业者们以及APP开发团队能更快更省更专业的推出他们的产品。'
+			  },//opler 智能采暖
+			  {
+				  show:false,
+				  className:'mengzhu',
+				  app_logo:'./img/mobile/cases/mengzhu/logo.png',
+				  app_name:'萌煮辅食',
+				  app_dev_time:'DEMO 3天/1人',
+				  app_line_time:'上 线 15天/1人',
+				  con2_txt:'萌煮辅食app是一款专门为0-6岁提供的好吃的辅食手机应用，萌煮辅食app均为步骤清晰的图文说明，让新手、小白、甚至是手残党的菜鸟cooker，毫无压力的同时大展身手。',
+				  item0:'./img/mobile/cases/mengzhu/mengzhu1.png',
+				  item1:'./img/mobile/cases/mengzhu/mengzhu2.png',
+				  item2:'./img/mobile/cases/mengzhu/mengzhu3.png',
+				  ios:'./img/mobile/cases/mengzhu/i.jpg',
+				  and:'./img/mobile/cases/mengzhu/a.jpg',
+				  ser_item:['imageFilter',
+					  'UIMediaScanner','sinaWeiBo',
+					  'talkingData','ajpush',
+					  'NVTabBar','UIPullRefreshFlash',
+					  'logger','weiXin',
+					  'UIScrollPicture','zip',
+					  'fs','trans',
+					  'db','weibo',
+					  'wx','qq',
+					  'UIInput','UIMultiSelector',
+					  'dialogBox','privacy',
+					  'tuberBar','citySelector',
+					  'qiniuUpfile','videoPlayer',
+					  'webBrowser','3DTouch',
+					  'UIButton','FNImageClip',
+					  'MNPopups','MNActionButton',
+					  'meiQia','gotyeLivePublisher',
+					  'gotyeLiveCore','gotyeLiveChat',
+					  'gotyeLivePlayer','shareAction',
+					  'mam','UIPullRefreshMotive',
+					  'UIPullRefresh','addressView',
+					  'inputField','alarmNotification',
+					  'gizWifiSDK','FNPhotograph',
+					  'UIActionProgress','UILoading'
+				  ],
+				  con_title:'CTO 尤凯强',
+				  server_txt:'由于是创业公司，一方面产品需要快速发布，另一方面在原生的成本太过于高，对比了相关的混编的平台以后决定选择APICloud，不管是从业务方面还是从扩展性方面APICloud都足够支持所有业务，帮助我们节约了很多时间很，目前我们通过APICloud 上线的应用20W+用户已经有三款了，对于一个新的极客团队我们希望，通过APP改变世界'
+			  },//萌煮辅食
+			  {
+				  show:false,
+				  className:'meiyou',
+				  app_logo:'./img/mobile/cases/meiyou/logo.png',
+				  app_name:'美友智能补水仪',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'运用超高速震动补水，导出雾化分子与肌肤轻柔接触，为肌肤补水，同时能够准确检测肌肤六大部位肌肤属性，一键查看测试结果，快速解读肌肤状况，自动储存历史数据，智能跟踪帮助你深入了解肌肤状态。',
+				  item0:'./img/mobile/cases/meiyou/meiyou1.png',
+				  item1:'./img/mobile/cases/meiyou/meiyou2.png',
+				  item2:'./img/mobile/cases/meiyou/meiyou3.png',
+				  ios:'',
+				  and:'',
+				  noDownload:'iot智能硬件：需配合硬件体验，暂不提供下载',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//美友智能补水仪
+			  {
+				  show:false,
+				  className:'boles',
+				  app_logo:'./img/mobile/cases/boles/logo.png',
+				  app_name:'BoleSmart',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'一款家电智能手机控制软件，配合网络硬件设备，可实现用手机界面操作控制家电插座的开、关、定时、倒计时、随时定时，灯具的亮度，色温等。',
+				  item0:'./img/mobile/cases/boles/bolesmart1.png',
+				  item1:'./img/mobile/cases/boles/bolesmart2.png',
+				  item2:'./img/mobile/cases/boles/bolesmart3.png',
+				  ios:'',
+				  and:'',
+				  noDownload:'iot智能硬件：需配合硬件体验，暂不提供下载',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  }//BoleSmart
+		  ]},
+		  medical:{typeName:"medical",data:[
+			  {
+				  show:false,
+				  className:'xiehe',
+				  app_logo:'./img/mobile/cases/xiehe/logo.png',
+				  app_name:'协和老年医学',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'协和老年医学app是一款医疗健康应用，协和老年医学app为用户提供大量医疗信息，方便用户通过软件快速了解医疗问题，为用户身体健康提供帮助。',
+				  item0:'./img/mobile/cases/xiehe/xiehe1.png',
+				  item1:'./img/mobile/cases/xiehe/xiehe2.png',
+				  item2:'./img/mobile/cases/xiehe/xiehe3.png',
+				  ios:'',
+				  and:'',
+				  noDownload:'内部应用：无法提供下载',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//协和老年医学
+			  {
+				  show:false,
+				  className:'yaodaitong',
+				  app_logo:'./img/mobile/cases/yaodaitong/logo.png',
+				  app_name:'药代通',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'药代通app是一款为行业人员准备的软件，通过药代通app你可以更好的了解行业动态，同时系统还提供了丰富便捷的功能，让你可以更好的开展自己的工作。',
+				  item0:'./img/mobile/cases/yaodaitong/yaodaitong1.png',
+				  item1:'./img/mobile/cases/yaodaitong/yaodaitong2.png',
+				  item2:'./img/mobile/cases/yaodaitong/yaodaitong3.png',
+				  ios:'./img/mobile/cases/yaodaitong/i.png',
+				  and:'./img/mobile/cases/yaodaitong/a.png',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//药代通
+			  {
+				  show:false,
+				  className:'yulin',
+				  app_logo:'./img/mobile/cases/yulin/logo.png',
+				  app_name:'榆林一院',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'榆林市第一医院，是市级新型农村合作医疗保险和城镇职工医疗保险定点医院，是一所集医疗、教学、预防保健为一体的“三级甲等”综合医院。',
+				  item0:'./img/mobile/cases/yulin/yulin1.png',
+				  item1:'./img/mobile/cases/yulin/yulin2.png',
+				  item2:'./img/mobile/cases/yulin/yulin3.png',
+				  ios:'',
+				  and:'',
+				  noDownload:'内部应用：无法提供下载',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//榆林一院
+			  {
+				  show:false,
+				  version:true,
+				  itemImg:[
+					  {
+						  vname:'宠物版',
+						  active:true,
+						  app_name:'好兽医宠物版',
+						  app_logo:'./img/mobile/cases/shouyi/logo1.png',
+						  item0:'./img/mobile/cases/shouyi/shouyi1-1.png',
+						  item1:'./img/mobile/cases/shouyi/shouyi1-2.png',
+						  item2:'./img/mobile/cases/shouyi/shouyi1-3.png',
+						  ios:'./img/mobile/cases/shouyi/1-i.jpg',
+						  and:'./img/mobile/cases/shouyi/1-a.jpg'
+					  },
+					  {
+						  vname:'医生版',
+						  active:false,
+						  app_name:'好兽医医生版',
+						  app_logo:'./img/mobile/cases/shouyi/logo2.png',
+						  item0:'./img/mobile/cases/shouyi/shouyi2-1.png',
+						  item1:'./img/mobile/cases/shouyi/shouyi2-2.png',
+						  item2:'./img/mobile/cases/shouyi/shouyi2-3.png',
+						  ios:'./img/mobile/cases/shouyi/2-i.jpg',
+						  and:'./img/mobile/cases/shouyi/2-a.jpg'
+					  }
+				  ],
+				  className:'shouyi',
+				  app_logo:'./img/mobile/cases/shouyi/logo1.png',
+				  app_name:'好兽医宠物版',
+				  app_dev_time:'DEMO 5天/4人    ',
+				  app_line_time:'上 线 60天/5人',
+				  con2_txt:'好兽医宠物版，是最顶尖的宠物医师，最快速的问题响应，最全面的实时解答，足不出户为亲爱的“她”保驾护航，让您再也不必为没时间去宠物医院而烦恼！',
+				  item0:'./img/mobile/cases/shouyi/shouyi1-1.png',
+				  item1:'./img/mobile/cases/shouyi/shouyi1-2.png',
+				  item2:'./img/mobile/cases/shouyi/shouyi1-3.png',
+				  ios:'./img/mobile/cases/shouyi/1-i.jpg',
+				  and:'./img/mobile/cases/shouyi/1-a.jpg',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  }//好兽医宠物版
+		  ]},
+		  firm:{typeName:"firm",data:[
+			  {
+				  show:false,
+				  className:'intel',
+				  app_logo:'./img/mobile/cases/intel/logo.png',
+				  app_name:'Intel · 硬享公社',
+				  app_dev_time:'DEMO 7天/3人',
+				  app_line_time:'上线 30天/7人',
+				  con2_txt:'硬享公社是英特尔公司为用户推出的满足其对智能硬件产品及相关组件的查询和发布需求的软件，具有产品发布、管理、搜索、浏览、收藏、私信和电话沟通等在线功能。帮助卖家用户有效曝光发布产品，成为买家用户方便快捷的智能硬件采购消费入口。',
+				  item0:'./img/mobile/cases/intel/pic-1.jpg',
+				  item1:'./img/mobile/cases/intel/pic-2.jpg',
+				  item2:'./img/mobile/cases/intel/pic-3.jpg',
+				  ios:'./img/mobile/cases/intel/i.jpg',
+				  and:'./img/mobile/cases/intel/a.jpg',
+				  ser_item:['kf5sdk','UIScrollPicture','db','UIChatBox','UIInput','UICustomPicker','baiduLocation','mcm','msm','pdfReader','ajpush'],
+				  con_title:'',
+				  server_txt:'Intel CCE原本使用传统原生方式开发，但耗时5个月，无论从发布周期到产品质量都无法令人满意，因此经充分调研后，Intel CCE使用APICloud高效的app开发平台花费1个月就重构了之前的全部功能并且不停增加新功能，实现了快速发布、快速迭代、快速验证的目标，目前Intel CCE正在使用APICloud开发国际版本，覆盖更大市场和用户。'
+			  },//Intel · 硬享公社
+			  {
+				  show:false,
+				  className:'chunqiu',
+				  app_logo:'./img/mobile/cases/chunqiu/smplogo.png',
+				  app_name:'春秋之家',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'春秋之家（SMP）旨在为春秋航空提供系统化、移动化、智能化的办公平台。迄今，移动飞行、移动乘务、移动机务等功能陆续上线，实现了机组工作的全面覆盖，夯实了航班运行的安全保障，加强了碎片时间的自我管理，提高了企业内部的工作效率。',
+				  item0:'./img/mobile/cases/chunqiu/chunqiusmp1.png',
+				  item1:'./img/mobile/cases/chunqiu/chunqiusmp2.png',
+				  item2:'./img/mobile/cases/chunqiu/chunqiusmp3.png',
+				  ios:'',
+				  and:'',
+				  noDownload:'企业应用：无法提供下载',
+				  ser_item:['SuperWebView','imageBrowser',
+					  'pdfReader','db',
+					  'mcm','navigationBar',
+					  'UIChatBox','clipBoard',
+					  'mageClip','UIScrollPicture',
+					  'AES','UICalendar',
+					  'docReader','talkingData',
+					  'markerPen','mySettingInfo'
+				  ],
+				  con_title:'移动项目经理 徐禹剑',
+				  server_txt:''
+			  },//春秋之家
+			  {
+				  show:false,
+				  className:'fengchao',
+				  app_logo:'./img/mobile/cases/fengchao/logo.png',
+				  app_name:'凤巢',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'凤凰网内部的办公管理应用，员工可实现在移动端考勤、请假、其他流程审批等。',
+				  item0:'./img/mobile/cases/fengchao/fengchao1.png',
+				  item1:'./img/mobile/cases/fengchao/fengchao2.png',
+				  item2:'./img/mobile/cases/fengchao/fengchao3.png',
+				  ios:'',
+				  and:'',
+				  noDownload:'企业应用：无法提供下载',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//凤巢
+			  {
+				  show:false,
+				  className:'zhongche',
+				  app_logo:'./img/mobile/cases/zhongche/logo.png',
+				  app_name:'中国中车',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'该app为中国中车集团公司内部员工的移动办公系统，支持考勤、通讯录、、班车登记等内部管理信息。',
+				  item0:'./img/mobile/cases/zhongche/zhongche1.png',
+				  item1:'./img/mobile/cases/zhongche/zhongche2.png',
+				  item2:'./img/mobile/cases/zhongche/zhongche3.png',
+				  ios:'',
+				  and:'',
+				  noDownload:'企业应用：无法提供下载',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//中国中车
+			  {
+				  show:false,
+				  className:'xinhangxian',
+				  app_logo:'./img/mobile/cases/xinhangxian/logo.png',
+				  app_name:'新航线',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'新航线，以让跨境贸易更简单为使命，专注为跨境电商提供定制培训、人才引进、管理咨询等服务。现与全国20多所高校、共建跨境电子商务人才实训基地。',
+				  item0:'./img/mobile/cases/xinhangxian/xinhangxian1.png',
+				  item1:'./img/mobile/cases/xinhangxian/xinhangxian2.png',
+				  item2:'./img/mobile/cases/xinhangxian/xinhangxian3.png',
+				  ios:'',
+				  and:'',
+				  noDownload:'企业应用：无法提供下载',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  }//新航线
+		  ]},
+		  other:{typeName:"other",data:[
+			  {
+				  show:false,
+				  className:'canlian',
+				  app_logo:'./img/mobile/cases/canlian/logo.png',
+				  app_name:'餐链',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'餐链app是一款专注餐饮行业的食材采购平台，为餐饮商家提供安全健康的食材，随时随地在线申购，让食材采购变得更便捷。餐厅主要功能有申购、下单、收货、退货，核账，对账等功能，供应商主要功能有收单、配货、记账、对账等。',
+				  item0:'./img/mobile/cases/canlian/canlian1.png',
+				  item1:'./img/mobile/cases/canlian/canlian2.png',
+				  item2:'./img/mobile/cases/canlian/canlian3.png',
+				  ios:'./img/mobile/cases/canlian/i.png',
+				  and:'./img/mobile/cases/canlian/a.png',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//餐链
+			  {
+				  show:false,
+				  className:'xinhuanjing',
+				  app_logo:'./img/mobile/cases/xinhuanjing/logo.png',
+				  app_name:'新环境房屋网',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'新环境房屋网，是为房屋买卖、租凭双方提供买卖房、租凭房一站式服务，满足个性化居住需求的专业平台，包括二手房、新房买卖，房、铺、仓库、写字楼租赁、房地产资讯等信息及交易服务，是华中最大的房产信息交易平台。',
+				  item0:'./img/mobile/cases/xinhuanjing/xinhuanjing1.png',
+				  item1:'./img/mobile/cases/xinhuanjing/xinhuanjing2.png',
+				  item2:'./img/mobile/cases/xinhuanjing/xinhuanjing3.png',
+				  ios:'./img/mobile/cases/xinhuanjing/i.png',
+				  and:'./img/mobile/cases/xinhuanjing/a.png',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//新环境房屋网
+			  {
+				  show:false,
+				  className:'yiguanjia',
+				  app_logo:'./img/mobile/cases/yiguanjia/logo.png',
+				  app_name:'壹管家',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'壹管家，是一款租房应用软件，涵盖多种找房途径：地铁找房、区域找房、商区找房、地址找房等。壹管家app搭建起与经纪人交流的平台。',
+				  item0:'./img/mobile/cases/yiguanjia/yiguanjia1.png',
+				  item1:'./img/mobile/cases/yiguanjia/yiguanjia2.png',
+				  item2:'./img/mobile/cases/yiguanjia/yiguanjia3.png',
+				  ios:'./img/mobile/cases/yiguanjia/i.png',
+				  and:'./img/mobile/cases/yiguanjia/a.png',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//壹管家
+			  {
+				  show:false,
+				  className:'tongxiang',
+				  app_logo:'./img/mobile/cases/tongxiang/logo.png',
+				  app_name:'桐乡红云',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'一款服务于桐乡用户的党员学习软件。为用户推送了丰富的党政资讯，提供党员学习、党员交流等功能。党员用户可以随时随地通过手机端在线学习党务知识，可以在线答题、汇报工作任务等等。',
+				  item0:'./img/mobile/cases/tongxiang/tongxiang1.png',
+				  item1:'./img/mobile/cases/tongxiang/tongxiang2.png',
+				  item2:'./img/mobile/cases/tongxiang/tongxiang3.png',
+				  ios:'./img/mobile/cases/tongxiang/i.jpg',
+				  and:'./img/mobile/cases/tongxiang/a.jpg',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//桐乡红云
+			  {
+				  show:false,
+				  className:'heshi',
+				  app_logo:'./img/mobile/cases/heshi/logo.png',
+				  app_name:'和什邡',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'和什邡”寓意和谐什邡，由公共服务信息发布、民情互动、便民服务三部分构成。其中办事指南版块包含613项行政事项办事指南，涉及38个部门。法律服务版块包含申请法律援助、办事公证、司法鉴定、法庭诉讼流程和驻村律师查询等功能。此外还包括重大政策发布、民情信息公告、招聘培训信息、困难救助申请、医院就诊指南、市情介绍等内容。',
+				  item0:'./img/mobile/cases/heshi/heshi1.png',
+				  item1:'./img/mobile/cases/heshi/heshi2.png',
+				  item2:'./img/mobile/cases/heshi/heshi3.png',
+				  ios:'',
+				  and:'',
+				  noDownload:'企业应用：无法提供下载',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  },//和什邡
+			  {
+				  show:false,
+				  className:'91youshang',
+				  app_logo:'./img/mobile/cases/91youshang/logo.png',
+				  app_name:'91油商',
+				  app_dev_time:'',
+				  app_line_time:'',
+				  con2_txt:'专为加油站业主、经营者打造运营管理加油站的应用，包含：月度销售计划管理、当日销售统计、 经营分经营管理、营销管理。',
+				  item0:'./img/mobile/cases/91youshang/91youshang1.png',
+				  item1:'./img/mobile/cases/91youshang/91youshang2.png',
+				  item2:'./img/mobile/cases/91youshang/91youshang3.png',
+				  ios:'',
+				  and:'',
+				  noDownload:'企业应用：无法提供下载',
+				  ser_item:[],
+				  con_title:'',
+				  server_txt:''
+			  }//91油商
+		  ]},
+      }
+  };
+	var VMcaseMain=new Vue({
+		el:'#caseMain',
+		data:{
+			cases:allcases.body.test.data,
+			casesType:allcases.body.test.typeName,
+		},
+		methods:{
+			taggle:function(index){
+				this.cases[index].show=!this.cases[index].show;
+			},
+			setversion:function(n,index,event){
+				var el = event.currentTarget;
+				$(el).addClass('active').siblings().removeClass('active');
+				if(0==n){
+					this.cases[index].itemImg[0].active=true;
+					this.cases[index].itemImg[1].active=false;
+				}
+				if(1==n){
+					this.cases[index].itemImg[0].active=false;
+					this.cases[index].itemImg[1].active=true;
+				}
+			}
+		},
+	});
+	VMcaseMain.$nextTick(function(){
+	});
+		$("img.lazy").lazyload({
+			threshold :500,
+//			placeholder : "img/loading_pre.gif",
+			effect: 'fadeIn'
+		});
+		//tab切换
+		$('#tabbox').on('click','.tab',function(){
+			var $index=$(this).children('span').attr('data-index');
+			var dataName=$(this).attr('data-name');
+			VMcaseMain.cases=allcases.body[dataName].data;
+			VMcaseMain.casesType=allcases.body[dataName].typeName;
+			$(this).addClass('active').siblings().removeClass('active');
+			$('body,html').animate({ scrollTop: 0 },0);
+			$('#tabbox').css({'position':'relative'});
+
+		});
+		//回到顶部
+		$(window).scroll(function(){
+			var scrollTop = $(this).scrollTop();
+			var windowHeight = $(this).height();
+			var bannerH=$('.banner').height();
+			if(scrollTop>=(bannerH+50)){
+				$('#tabbox').css({
+					'position':'fixed',
+					'left':0,
+					'top':0,
+					'z-index':'10'
+				})
+			}else {
+				$('#tabbox').css({'position':'relative'});
+			}
+			if(scrollTop>=windowHeight){
+				$('#go-top').fadeIn(500);
+			}else {
+				$('#go-top').fadeOut(500);
+			}
+		});
+		$("#go-top").click(function () {
+			$('body,html').animate({ scrollTop: 0 },0);
+			$('#tabbox').css({'position':'relative'});
+			return false;
+		});
+</script>
+</body>
+</html>
+
+
