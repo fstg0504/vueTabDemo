@@ -67,8 +67,8 @@
 							<p class="con-title" v-else>应用展示</p>
 							<div class="app-info-box">
 								<template v-if="item.version">
-									<swiper v-show="item.itemImg[0].active" :itemimg="item.itemImg[0]" :id="item.className+'swiper0'"></swiper>
-									<swiper v-show="item.itemImg[1].active"  :itemimg="item.itemImg[1]" :id="item.className+'swiper1'"></swiper>
+									<keep-alive><swiper v-if="item.itemImg[0].active" :itemimg="item.itemImg[0]" :id="item.className+'swiper0'"></swiper></keep-alive>
+									<keep-alive><swiper v-if="item.itemImg[1].active" :itemimg="item.itemImg[1]" :id="item.className+'swiper1'"></swiper></keep-alive>
 								</template>
 								<template v-else>
 									<swiper :itemimg="item" :id="item.className+'swiper0'"></swiper>
@@ -158,6 +158,7 @@
 			    </div>`,
 		mounted:function(){
 			var _id="#"+this.id;
+			console.log(_id)
 			new Swiper(_id, {
 				loop: true,
 				initialSlide :0,
@@ -174,6 +175,9 @@
 				nextButton: '.swiper-button-next',
 				prevButton: '.swiper-button-prev'
 			})
+		},
+		updated:function () {
+			console.log(179)
 		}
 	});
   var allcases={
@@ -2609,6 +2613,7 @@
 				}
 			}
 		},
+		mounted:function(){}
 	});
 	VMcaseMain.$nextTick(function(){
 	});
